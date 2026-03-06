@@ -4,6 +4,6 @@ module cz.vse.semestralka_4it115 {
     requires gson;
 
 
-    opens cz.vse.semestralka_4it115 to javafx.fxml;
-    exports cz.vse.semestralka_4it115;
+    opens cz.vse.semestralka_4it115.main to javafx.fxml;
+    exports cz.vse.semestralka_4it115.main;
 }

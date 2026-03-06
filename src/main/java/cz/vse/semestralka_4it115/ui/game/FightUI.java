@@ -1,5 +1,6 @@
 package cz.vse.semestralka_4it115.ui.game;
 
+import cz.vse.semestralka_4it115.logic.space.Difficulty;
 import cz.vse.semestralka_4it115.logic.entity.Person;
 
 import java.util.Arrays;
@@ -118,7 +119,7 @@ public class FightUI {
         double aDamage = attacker.getEffectiveStrength();
         double dDefense = defender.getEffectiveDefense();
 
-        if (GH.game.getDifficulty() != logic.space.Difficulty.EASY) {
+        if (GH.game.getDifficulty() != Difficulty.EASY) {
             Random rnd = new Random();
             List<Double> rndDamage = Arrays.asList(
                     0.25, 0.5, 0.75,

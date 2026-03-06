@@ -1,6 +1,10 @@
 package cz.vse.semestralka_4it115.serializer;
 
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import cz.vse.semestralka_4it115.logic.space.Room;
 
 import java.lang.reflect.Type;
