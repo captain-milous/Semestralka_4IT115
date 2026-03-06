@@ -1,0 +1,149 @@
+package main.temp;
+
+import serializer.JsonHandler;
+import logic.entity.Person;
+import logic.item.*;
+import logic.space.Map;
+import logic.space.Room;
+
+/**
+ * The CreateMap class handles createmap functionality.
+ *
+ * @author Miloš Tesař
+ * @version BETA
+ * @since 2025-04-03
+ */
+public class CreateMap {
+    public static void main(String[] args) {
+        Map m = new Map();
+        m.setSeed("M1");
+
+        Room r1 = new Room(1, "Pokoj v hospodě","Skromný, ale útulný pokoj, ve kterém si strávil posledních pár nocí.");
+        Room r2 = new Room(2, "Hospoda","Rušné místo, kde se scházejí cestující i místní, aby se občerstvili, sdíleli příběhy a navázali kontakty");
+        Room r3 = new Room(3, "Zbrojnice","Místnost plná zbraní a brnění, svědectví o dávných bitvách a hrdinských činech obránců hradu.");
+        Room r4 = new Room(4, "Brána","Prostor, kde se shromažďovali strážci, bdící a připravení bránit hrad před nepřáteli.");
+        Room r5 = new Room(5, "Zahrada","Krásně udržovaná zahrada na hradním nádvoří, poskytující krátký oddech a klid před nebezpečím.");
+        Room r6 = new Room(6, "Nádvoří","Místo uvnitř hradeb, kde se schází lidé. (Propojení mezi nádvořními budovami a hradem)");
+        Room r7 = new Room(7, "Hradní koridor","Rozlehlý chodební systém spojující všechny důležité části hradu, lemovaný historickými portréty.");
+        Room r8 = new Room(8, "Trůnní sál","Velkolepý sál s majestátním trůnem, kde se konaly královské audience a ceremoniály.");
+        Room r9 = new Room(9, "Velká jídelna","Prostorná jídelna s dlouhým stolem a bohatou výzdobou, kde se setkávali rytíři a významní hosté.");
+        Room r10 = new Room(10, "Tajná chodba","Skrytý průchod mezi hradem a starou věží, na který už dávno všichni zapomněli");
+        Room r11 = new Room(11, "Stará věž","Rozpadlá věž, která se už léta nepoužívá a mnoho lidí na ni zapomnělo.");
+        Room r12 = new Room(12, "Cesta v lese","Úzká a klikatá stezka vedoucí temnými lesy, plná nečekaných setkání a nástrah.");
+        Room r13 = new Room(13, "Rozcestí v lese","Klíčové místo, kde se cesty rozvětvují, symbolizující volbu mezi osudem a nebezpečím.");
+        Room r14 = new Room(14, "Lesní mýtina","Otevřená plocha uprostřed lesa, kde se cesty protínají a hrdina může narazit na pomocníky či protivníky.");
+        Room r15 = new Room(15, "Brány druhého hradu","Imponující vstup do spojeneckého hradu, kam musí posel doručit královu zprávu a získat pomoc.");
+        try {
+            //pokoj
+            r1.addExit(2);
+
+            Inventory strazny = new Inventory();
+            strazny.addItem(new Weapon("Meč",18,3.1,8));
+            strazny.addItem(new Armor("Brnění",8,10,14));
+            r1.addOtherPeople(new Person("Strážný", 10, 10, 100, true,true, 10, strazny));
+            //hospoda
+            r2.addExit(1);
+            r2.addExit(6);
+            Inventory hospodsky = new Inventory();
+            hospodsky.addItem(new Food("Pivo",1,0.1,1));
+            hospodsky.addItem(new Food("Chleba",1,0.1,1));
+            hospodsky.addItem(new Food("Víno",1,0.1,1));
+            r2.addOtherPeople(new Person("Hospodsky", 10, 10, 100, true, true, 25, hospodsky));
+            Inventory tajemnik = new Inventory();
+            tajemnik.addItem(new Item("Mapa",10,0.1));
+            tajemnik.addItem(new Item("Hrací kostka",1,0.1));
+            r2.addOtherPeople(new Person("Pocestny", 10, 10, 100, true,true, 0, tajemnik));
+            //zbrojnice
+            r3.addExit(6);
+            Inventory obchodnik = new Inventory(100);
+            obchodnik.addItem(new Weapon("Meč",7,3,15));
+            obchodnik.addItem(new Weapon("Sekera",9,3.5,18));
+            obchodnik.addItem(new Armor("Štít",8,2,15));
+            obchodnik.addItem(new Armor("Helma",6,1.5,8));
+            r3.addOtherPeople(new Person("Kovář", 10, 10, 100, true,true, 15, obchodnik));
+            //brana
+            r4.addExit(6);
+            r4.addOtherPeople(new Person("Strážný", 10, 10, 100, true,true, 25, strazny));
+            //zahrada
+            r5.addExit(7);
+            r5.addExit(10);
+            //nadvori
+            r6.addExit(2);
+            r6.addExit(3);
+            r6.addExit(4);
+            r6.addExit(7);
+            r6.addItem(new Item("Povoz", 100, 100));
+            //koridor
+            r7.addExit(5);
+            r7.addExit(7);
+            r7.addExit(8);
+            r7.addExit(9);
+            r7.addItem(new Item("Skříň", 10, 40));
+            //trun
+            r8.addExit(7);
+            r8.addItem(new Item("Pečeť",0,0.1));
+            Inventory kral = new Inventory();
+            kral.addItem(new Item("Pečeť",1000,0.1));
+            r8.addOtherPeople(new Person("Král", 100, 100, 100, true,true, 999999, kral));
+            r8.addOtherPeople(new Person("Strážný", 35, 20, 100, true,true, 150, strazny));
+            //jidelna
+            r9.addExit(7);
+            r9.addItem(new Food("Pivo",1,1,1));
+            r9.addItem(new Food("Pivo",1,1,1));
+            r9.addItem(new Item("Klíč",1,0.1));
+            r9.addOtherPeople(new Person("Radce", 1, 1, 100, true,true, 25, new Inventory()));
+            //tajna chodba
+            r10.setLocked(true);
+            r10.addExit(5);
+            r10.addExit(11);
+            //věž
+            r11.addExit(10);
+            r11.addExit(12);
+            //cesta
+            r12.addExit(11);
+            r12.addExit(13);
+            r12.addOtherPeople(new Person("temp", 15, 15, 100, true,false, 0, new Inventory()));
+            //rozcesti
+            r13.addExit(12);
+            r13.addExit(14);
+            r13.addExit(15);
+            //mytina
+            r14.addExit(13);
+            r14.addOtherPeople(new Person("temp", 15, 15, 100, true,false, 0, new Inventory()));
+            r14.addOtherPeople(new Person("temp", 15, 15, 100, true,false, 0, new Inventory()));
+            //konec
+            r15.addExit(13);
+            r15.addOtherPeople(new Person("Strážný", 10, 10, 100, true,true, 25, new Inventory()));
+
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        m.setCurrentRoom(r1);
+        m.addRoom(r1);
+        m.addRoom(r2);
+        m.addRoom(r3);
+        m.addRoom(r4);
+        m.addRoom(r5);
+        m.addRoom(r6);
+        m.addRoom(r7);
+        m.addRoom(r8);
+        m.addRoom(r9);
+        m.addRoom(r10);
+        m.addRoom(r11);
+        m.addRoom(r12);
+        m.addRoom(r13);
+        m.addRoom(r14);
+        m.addRoom(r15);
+
+        System.out.println(m.toString());
+
+        System.out.println(m.currentExitsToString());
+        try{
+            JsonHandler.saveMap(m);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
