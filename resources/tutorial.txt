@@ -1,0 +1,18 @@
+Hra se ovládá těmito příkazy:
+help                           - zobrazí tuto nápovědu
+exit                           - ukončí hru
+jdi <nazev/id>                 - přejde do místnosti
+utok <jméno/id>                - zaútočí na postavu
+batoh list                     - zobrazí obsah batohu
+batoh info <nazev/id>          - vypíše detaily předmětu
+batoh vezmi <nazev/id>         - vezme předmět z místnosti
+batoh zahod <nazev/id>         - zahodí předmět z batohu
+prohledat                      - základní info o místnosti
+prohledat podrobny             - podrobné info o místnosti
+prohledat vychody              - vypíše východy
+prohledat lide                 - vypíše postavy
+prohledat veci                 - vypíše předměty v místnosti
+nakup <nazev/id>               - nakoupí u prodejce
+mluvit <jméno/id>              - promluví s NPC
+
+Cílem hry je dojít do druhého hradu.
