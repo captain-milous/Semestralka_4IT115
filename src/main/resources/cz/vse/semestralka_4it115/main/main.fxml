@@ -104,11 +104,11 @@
       </HBox>
       <HBox spacing="10.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
          <children>
-            <TextField fx:id="vstup" prefHeight="30.0" prefWidth="1105.0">
+            <TextField fx:id="cmdInput" prefHeight="30.0" prefWidth="1105.0">
                <HBox.margin>
                   <Insets left="100.0" />
                </HBox.margin></TextField>
-            <Button onAction="#odesliVstup" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" text="Odeslat" />
+            <Button onAction="#sendCmdInput" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" text="Odeslat" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -125,7 +125,7 @@
                   </Label>
                </children>
             </Pane>
-            <TextArea disable="true" editable="false" prefHeight="299.0" prefWidth="278.0" VBox.vgrow="ALWAYS">
+            <TextArea fx:id="playerBackpack" disable="true" editable="false" prefHeight="299.0" prefWidth="278.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -146,7 +146,7 @@
                   </Label>
                </children>
             </Pane>
-            <TextArea disable="true" editable="false" prefHeight="338.0" prefWidth="341.0" VBox.vgrow="ALWAYS">
+            <TextArea fx:id="systemLog" disable="true" editable="false" prefHeight="338.0" prefWidth="341.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -167,7 +167,7 @@
                   </Label>
                </children>
             </Pane>
-            <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="map" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/map.png" />
                </image></ImageView>
@@ -187,7 +187,7 @@
                   </Label>
                </children>
             </Pane>
-            <TextArea disable="true" editable="false" prefHeight="299.0" prefWidth="278.0" VBox.vgrow="ALWAYS">
+            <TextArea fx:id="questList" disable="true" editable="false" prefHeight="299.0" prefWidth="278.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
