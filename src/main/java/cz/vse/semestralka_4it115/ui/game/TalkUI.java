@@ -3,6 +3,7 @@ package cz.vse.semestralka_4it115.ui.game;
 import cz.vse.semestralka_4it115.logic.entity.Person;
 import cz.vse.semestralka_4it115.serializer.SerHandler;
 
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import static cz.vse.semestralka_4it115.ui.game.GameUI.GH;
 /**
  * Manages dialogue interactions between the player and NPCs, loading and saving conversation data.
  *
- * @author Miloš Tesař
+ * @author Milos Tesar
  * @version BETA
  * @since 2025-06-05
  */
@@ -28,7 +29,7 @@ public class TalkUI {
 
         Person target = findTalkablePerson(osoba, otherPeople);
         if (target == null) {
-            throw new Exception("Osoba '" + osoba + "' nenalezena v místnosti.");
+            throw new Exception("Osoba '" + osoba + "' nenalezena v mistnosti.");
         }
 
         Map<TalkablePeople, String> conversations =
@@ -36,13 +37,13 @@ public class TalkUI {
 
         TalkablePeople tp = getTalkableEnum(target);
         if (tp == null) {
-            throw new Exception("Nelze určit enum TalkablePeople pro osobu '"
+            throw new Exception("Nelze urcit enum TalkablePeople pro osobu '"
                     + target.getName() + "'.");
         }
 
         if (!conversations.containsKey(tp)) {
             throw new Exception("Pro osobu '" + target.getName()
-                    + "' není definován žádný dialog.");
+                    + "' neni definovan zadny dialog.");
         }
 
         System.out.println(conversations.get(tp) + "\n");
@@ -66,7 +67,7 @@ public class TalkUI {
         }
 
         for (Person p : otherPeople) {
-            if (p.toString().equalsIgnoreCase(osoba)) {
+            if (normalize(p.getName()).startsWith(normalize(osoba))) {
                 return p;
             }
         }
@@ -81,15 +82,33 @@ public class TalkUI {
      * @return the matching TalkablePeople enum or null if no match exists
      */
     private static TalkablePeople getTalkableEnum(Person p) {
-        String rawName = p.getName();
-        // TODO: Dodělat!
+        String key = normalize(p.getName());
 
-        try {
-            //return TalkablePeople.valueOf(key);
-        } catch (IllegalArgumentException e) {
-            // Pokud hodnota neexistuje v enumu, vrátíme null
-            return null;
+        if (key.startsWith("kral")) {
+            return TalkablePeople.KRAL;
         }
+        if (key.startsWith("radce")) {
+            return TalkablePeople.RADCE;
+        }
+        if (key.startsWith("tajemnik")) {
+            return TalkablePeople.TAJEMNIK;
+        }
+        if (key.startsWith("strazny")) {
+            return TalkablePeople.STRAZNY;
+        }
+
         return null;
+    }
+
+    /**
+     * Normalizes text to lowercase without diacritics for stable matching.
+     *
+     * @param input source text
+     * @return normalized text
+     */
+    private static String normalize(String input) {
+        String noDiacritics = Normalizer.normalize(input, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "");
+        return noDiacritics.toLowerCase();
     }
 }

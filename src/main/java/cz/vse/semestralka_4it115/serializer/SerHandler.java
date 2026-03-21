@@ -49,7 +49,6 @@ public class SerHandler {
             Object obj = ois.readObject();
             return (Map<String, CMD>) obj;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
             return new HashMap<>();  // fallback
         }
     }
@@ -83,7 +82,6 @@ public class SerHandler {
             Object obj = ois.readObject();
             return (Map<String, LookActions>) obj;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
             return new HashMap<>();  // fallback
         }
     }
@@ -117,7 +115,6 @@ public class SerHandler {
             Object obj = ois.readObject();
             return (Map<TalkablePeople, String>) obj;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
             return new HashMap<>();  // fallback
         }
     }

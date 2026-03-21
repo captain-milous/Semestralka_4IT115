@@ -6,11 +6,6 @@ import cz.vse.semestralka_4it115.logic.space.Difficulty;
 import cz.vse.semestralka_4it115.serializer.TxtHandler;
 import cz.vse.semestralka_4it115.ui.cmd.Command;
 import cz.vse.semestralka_4it115.ui.cmd.CommandParser;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /**
@@ -33,7 +28,7 @@ public class GameUI {
      */
     public static GameHandler GH = new GameHandler();
 
-    public static CommandParser CP = new CommandParser();
+    public static CommandParser CP;
 
     /**
      * String used as a visual separator in console output.
@@ -71,6 +66,7 @@ public class GameUI {
      * selecting difficulty, loading the map, and entering the main play loop.
      */
     public static void start() {
+        CP = new CommandParser();
         introduction();
         setUpGamerName();
         setUpDificulty();
@@ -83,6 +79,7 @@ public class GameUI {
      */
     public static void restart() {
         GH.game.resetPlayer(GH.game.getPlayer().getName());
+        CP = new CommandParser();
         setUpDificulty();
         setUpMap();
         play();
