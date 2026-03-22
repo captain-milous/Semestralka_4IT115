@@ -51,6 +51,7 @@ public class MainController {
     private static final String ITEM_IMAGE_BASE_PATH = "/cz/vse/semestralka_4it115/main/img/items/";
     private static final String DEFAULT_ITEM_IMAGE = "Default.png";
     private final GuiCommandExecutor commandExecutor = new GuiCommandExecutor(this::showLargeMapWindow);
+    private Trade trade;
     private final Set<Integer> visitedRoomIds = new HashSet<>();
     private final ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
     private boolean gameOver = false;
@@ -89,6 +90,12 @@ public class MainController {
      */
     @FXML
     public void initialize() {
+        trade = new Trade(
+                () -> cmdInput != null && cmdInput.getScene() != null ? cmdInput.getScene().getWindow() : null,
+                this::refreshView,
+                this::appendGameLog,
+                this::appendErrorLog
+        );
         setUpSystemLog();
         setUpItemLists();
         startNewGame();
@@ -330,6 +337,10 @@ public class MainController {
     private void executeCommandAndLogOutput(String input) {
         if (gameOver) {
             appendErrorLog("Hra již skončila. Zvol New game nebo Restart.");
+            return;
+        }
+        if (trade.tryHandleTradeCommand(input)) {
+            handleEndGameState();
             return;
         }
 
@@ -711,14 +722,9 @@ public class MainController {
             return;
         }
 
-        boolean canTrade = person.getInventory() != null && person.getInventory().getItems() != null
-                && !person.getInventory().getItems().isEmpty();
-
         java.util.List<String> options = new java.util.ArrayList<>();
         options.add("Mluvit");
-        if (canTrade) {
-            options.add("Obchodovat");
-        }
+        options.add("Obchodovat");
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Mluvit", options);
         dialog.setTitle("Interakce");
@@ -730,9 +736,13 @@ public class MainController {
             return;
         }
 
-        String command = action.get().equals("Obchodovat") ? "nakup " : "mluvit ";
-        appendPlayerLog(command.trim() + " " + person.getName() + " (klik)");
-        executeCommandAndLogOutput((command + person.getName()).toLowerCase());
+        if (action.get().equals("Obchodovat")) {
+            appendPlayerLog("nakup " + person.getName() + " (klik)");
+            trade.openForPerson(person);
+        } else {
+            appendPlayerLog("mluvit " + person.getName() + " (klik)");
+            executeCommandAndLogOutput(("mluvit " + person.getName()).toLowerCase());
+        }
         refreshView();
     }
 

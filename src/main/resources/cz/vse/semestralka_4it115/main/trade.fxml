@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="500.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vse.semestralka_4it115.main.TradeController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-padding: 12 12 8 12;">
+            <children>
+                <Label text="Obchod s:">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="dealerNameLabel">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="12.0">
+            <padding>
+                <Insets top="8.0" right="12.0" bottom="12.0" left="12.0" />
+            </padding>
+            <children>
+                <VBox prefWidth="300.0" spacing="8.0">
+                    <children>
+                        <Label text="Tvůj inventář" />
+                        <Label fx:id="playerMoneyLabel" text="Peníze: 0 Kč" />
+                        <ListView fx:id="playerItemsList" prefHeight="360.0" VBox.vgrow="ALWAYS" />
+                    </children>
+                </VBox>
+
+                <VBox alignment="CENTER" prefWidth="160.0" spacing="10.0">
+                    <children>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSellClicked" text="Prodat -&gt;" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onBuyClicked" text="&lt;- Koupit" />
+                        <Button fx:id="closeButton" mnemonicParsing="false" onAction="#onCloseClicked" text="Dokončit obchod" />
+                    </children>
+                </VBox>
+
+                <VBox prefWidth="300.0" spacing="8.0">
+                    <children>
+                        <Label text="Inventář obchodníka" />
+                        <Label fx:id="dealerMoneyLabel" text="Peníze: 0 Kč" />
+                        <ListView fx:id="dealerItemsList" prefHeight="360.0" VBox.vgrow="ALWAYS" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </center>
+
+    <bottom>
+        <HBox spacing="12.0" style="-fx-padding: 0 12 12 12;">
+            <children>
+                <Label text="Cena transakce je vždy item value." />
+                <Region HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>
