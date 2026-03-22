@@ -23,7 +23,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
@@ -461,8 +460,8 @@ public class MainController {
      * Configures list rendering with item icons and click interactions.
      */
     private void setUpItemLists() {
-        playerBackpack.setCellFactory(list -> new ItemListCell());
-        roomItems.setCellFactory(list -> new ItemListCell());
+        playerBackpack.setCellFactory(list -> new ItemListCell(this::loadItemIcon));
+        roomItems.setCellFactory(list -> new ItemListCell(this::loadItemIcon));
         playerBackpack.setOnMouseClicked(this::onBackpackItemClicked);
     }
 
@@ -479,52 +478,17 @@ public class MainController {
     }
 
     /**
-     * JavaFX cell for inventory and room item rows.
-     */
-    private class ItemListCell extends ListCell<ItemListEntry> {
-        private final ImageView icon = new ImageView();
-        private final Label nameLabel = new Label();
-        private final Label weightLabel = new Label();
-        private final HBox content = new HBox(8, icon, nameLabel, weightLabel);
-
-        private ItemListCell() {
-            icon.setFitWidth(24);
-            icon.setFitHeight(24);
-            icon.setPreserveRatio(true);
-            weightLabel.setStyle("-fx-text-fill: #555;");
-        }
-
-        @Override
-        protected void updateItem(ItemListEntry item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty || item == null) {
-                setText(null);
-                setGraphic(null);
-                return;
-            }
-
-            nameLabel.setText(item.name());
-            if (item.placeholder()) {
-                icon.setImage(loadItemIcon(DEFAULT_ITEM_IMAGE.replace(".png", "")));
-                weightLabel.setText("");
-            } else {
-                icon.setImage(loadItemIcon(item.name()));
-                weightLabel.setText(String.format("(%.1f kg)", item.weight()));
-            }
-            setText(null);
-            setGraphic(content);
-        }
-    }
-
-    /**
      * Loads item icon by item name with fallback to Default.png.
      *
      * @param itemName game item name
      * @return image for list cell
      */
     private Image loadItemIcon(String itemName) {
-        String fileName = itemName + ".png";
-        URL iconUrl = getClass().getResource(ITEM_IMAGE_BASE_PATH + fileName);
+        URL iconUrl = null;
+        if (itemName != null && !itemName.isBlank()) {
+            String fileName = itemName + ".png";
+            iconUrl = getClass().getResource(ITEM_IMAGE_BASE_PATH + fileName);
+        }
         if (iconUrl == null) {
             iconUrl = getClass().getResource(ITEM_IMAGE_BASE_PATH + DEFAULT_ITEM_IMAGE);
         }
@@ -990,16 +954,6 @@ public class MainController {
      */
     public void clearCmdInput(){
         setCmdInput("");
-    }
-
-    /**
-     * Data holder for one row in inventory/room item list.
-     *
-     * @param name item display name
-     * @param weight item weight in kilograms
-     * @param placeholder true for non-selectable placeholder rows
-     */
-    private record ItemListEntry(String name, double weight, boolean placeholder) {
     }
 
     /**
