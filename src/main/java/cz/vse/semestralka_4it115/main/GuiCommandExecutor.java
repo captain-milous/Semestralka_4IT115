@@ -13,6 +13,23 @@ import javafx.application.Platform;
  * Keeps command behavior aligned with text mode while remaining reliable in JavaFX runtime.
  */
 public class GuiCommandExecutor {
+    private final Runnable showMapAction;
+
+    /**
+     * Creates executor with no GUI map action.
+     */
+    public GuiCommandExecutor() {
+        this(null);
+    }
+
+    /**
+     * Creates executor with optional map window action for "prohledat mapu".
+     *
+     * @param showMapAction callback that opens enlarged map window
+     */
+    public GuiCommandExecutor(Runnable showMapAction) {
+        this.showMapAction = showMapAction;
+    }
 
     /**
      * Executes one user command from GUI input.
@@ -98,6 +115,15 @@ public class GuiCommandExecutor {
 
         String action = tokens[1];
         switch (action) {
+            case "mapu":
+            case "mapa":
+            case "map":
+                if (showMapAction != null) {
+                    showMapAction.run();
+                } else {
+                    throw new IllegalArgumentException("Mapu nelze v tomto rozhraní otevřít.");
+                }
+                break;
             case "podrobny":
             case "detail":
                 LookUI.start("detail");

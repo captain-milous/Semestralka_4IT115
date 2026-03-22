@@ -1,6 +1,7 @@
 package cz.vse.semestralka_4it115.main;
 
 import cz.vse.semestralka_4it115.logic.entity.Person;
+import cz.vse.semestralka_4it115.logic.item.Item;
 import cz.vse.semestralka_4it115.logic.space.Difficulty;
 import cz.vse.semestralka_4it115.logic.space.Room;
 import cz.vse.semestralka_4it115.serializer.TxtHandler;
@@ -18,11 +19,20 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.HashSet;
@@ -37,9 +47,14 @@ import java.util.Set;
  */
 public class MainController {
     private static final String HELP_FILE = "resources\\help.txt";
-    private final GuiCommandExecutor commandExecutor = new GuiCommandExecutor();
+    private static final String MAP_IMAGE_BASE_PATH = "/cz/vse/semestralka_4it115/main/img/maps/";
+    private static final String DEFAULT_MAP_IMAGE = "map.png";
+    private static final String ITEM_IMAGE_BASE_PATH = "/cz/vse/semestralka_4it115/main/img/items/";
+    private static final String DEFAULT_ITEM_IMAGE = "Default.png";
+    private final GuiCommandExecutor commandExecutor = new GuiCommandExecutor(this::showLargeMapWindow);
     private final Set<Integer> visitedRoomIds = new HashSet<>();
     private final ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
+    private boolean gameOver = false;
 
     @FXML
     private Label playerName;
@@ -54,13 +69,19 @@ public class MainController {
     @FXML
     private TextField cmdInput;
     @FXML
-    private TextArea playerBackpack;
+    private ListView<ItemListEntry> playerBackpack;
+    @FXML
+    private ListView<ItemListEntry> roomItems;
+    @FXML
+    private Label backpackWeight;
     @FXML
     private ListView<LogEntry> systemLog;
     @FXML
     private ImageView map;
     @FXML
     private TextArea questList;
+    @FXML
+    private VBox peopleBox;
     @FXML
     private VBox exitsBox;
 
@@ -70,6 +91,7 @@ public class MainController {
     @FXML
     public void initialize() {
         setUpSystemLog();
+        setUpItemLists();
         startNewGame();
     }
 
@@ -78,6 +100,7 @@ public class MainController {
      */
     private void startNewGame() {
         GameHandler.game = new cz.vse.semestralka_4it115.ui.game.Game();
+        gameOver = false;
         String playerNameInput = requestPlayerName();
         Difficulty difficultyInput = requestDifficulty();
         GameHandler.game.getPlayer().setName(playerNameInput);
@@ -187,14 +210,24 @@ public class MainController {
      * @param input
      */
     public void setPlayerBackpack(String input) {
-        this.playerBackpack.setText(input);
+        if (input == null || input.isBlank()) {
+            this.playerBackpack.getItems().clear();
+            return;
+        }
+        ObservableList<ItemListEntry> entries = FXCollections.observableArrayList();
+        for (String line : input.split("\\R")) {
+            if (!line.isBlank()) {
+                entries.add(new ItemListEntry(line.trim(), 0, true));
+            }
+        }
+        this.playerBackpack.setItems(entries);
     }
     /**
      * Sets the map.
      * @param input
      */
     public void setMap(String input) {
-        this.map.setImage(new javafx.scene.image.Image(input));
+        this.map.setImage(new Image(input));
     }
 
     /**
@@ -251,11 +284,56 @@ public class MainController {
     }
 
     /**
-     * Executes parsed command and captures command output so it is visible in GUI log.
+     * Opens enlarged map window from GUI button.
      *
-     * @param input user command
+     * @param actionEvent button click event
      */
+    public void openLargeMapWindow(ActionEvent actionEvent) {
+        showLargeMapWindow();
+    }
+
+    /**
+     * Drops selected backpack item to current room.
+     *
+     * @param actionEvent button click event
+     */
+    public void dropSelectedBackpackItem(ActionEvent actionEvent) {
+        ItemListEntry selectedItem = playerBackpack.getSelectionModel().getSelectedItem();
+        if (selectedItem == null || selectedItem.placeholder()) {
+            appendErrorLog("Vyberte věc z batohu, kterou chcete položit.");
+            return;
+        }
+
+        String itemName = selectedItem.name();
+        appendPlayerLog("batoh zahod " + itemName + " (klik)");
+        executeCommandAndLogOutput("batoh zahod " + itemName.toLowerCase());
+        refreshView();
+    }
+
+    /**
+     * Takes selected room item to player's backpack.
+     *
+     * @param actionEvent button click event
+     */
+    public void takeSelectedRoomItem(ActionEvent actionEvent) {
+        ItemListEntry selectedItem = roomItems.getSelectionModel().getSelectedItem();
+        if (selectedItem == null || selectedItem.placeholder()) {
+            appendErrorLog("Vyberte věc v místnosti, kterou chcete vzít.");
+            return;
+        }
+
+        String itemName = selectedItem.name();
+        appendPlayerLog("batoh vezmi " + itemName + " (klik)");
+        executeCommandAndLogOutput("batoh vezmi " + itemName.toLowerCase());
+        refreshView();
+    }
+
     private void executeCommandAndLogOutput(String input) {
+        if (gameOver) {
+            appendErrorLog("Hra již skončila. Zvol New game nebo Restart.");
+            return;
+        }
+
         int previousRoomId = getCurrentRoomId();
         PrintStream originalOut = System.out;
         ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
@@ -279,6 +357,30 @@ public class MainController {
         if (commandSuccess) {
             appendLocationAfterMove(previousRoomId);
         }
+
+        handleEndGameState();
+    }
+
+    /**
+     * Detects end-game states after each successful command in GUI mode.
+     */
+    private void handleEndGameState() {
+        if (GameHandler.game == null || GameHandler.game.getPlayer() == null) {
+            return;
+        }
+
+        if (!GameHandler.game.getPlayer().isAlive()) {
+            gameOver = true;
+            appendErrorLog("Prohrál jsi. Hra skončila. Zvol New game nebo Restart.");
+            return;
+        }
+
+        if (GameHandler.game.getCurrentRoom() != null
+                && GameHandler.game.getCurrentRoom().getId() == 15
+                && GameHandler.game.searchInInventory("Pecet") != null) {
+            gameOver = true;
+            appendGameLog("Vyhrál jsi! Hra skončila. Zvol New game nebo Restart.");
+        }
     }
 
     /**
@@ -299,18 +401,197 @@ public class MainController {
         setPlayerStrength((int) Math.round(player.getEffectiveStrength()));
         setPlayerDefence((int) Math.round(player.getEffectiveDefense()));
         setPlayerMoney(player.getMoney());
+        updateMapImage();
 
         if (player.getInventory().getItems().isEmpty()) {
             setPlayerBackpack("Batoh je prázdný.");
         } else {
             setPlayerBackpack(player.getInventory().toString());
         }
+        updatePlayerBackpackItems(player);
 
         if (GameHandler.game.getCurrentRoom() != null) {
             visitedRoomIds.add(GameHandler.game.getCurrentRoom().getId());
         }
+        updatePeopleInRoom();
         updateExits();
+        updateRoomItems();
         updateQuestList();
+    }
+
+    /**
+     * Refreshes backpack entries and carried weight indicator.
+     *
+     * @param player current player
+     */
+    private void updatePlayerBackpackItems(Person player) {
+        ObservableList<ItemListEntry> backpackEntries = FXCollections.observableArrayList();
+        for (Item item : player.getInventory().getItems()) {
+            backpackEntries.add(new ItemListEntry(item.getName(), item.getWeight(), false));
+        }
+
+        if (backpackEntries.isEmpty()) {
+            backpackEntries.add(new ItemListEntry("Batoh je prázdný.", 0, true));
+        }
+        playerBackpack.setItems(backpackEntries);
+
+        backpackWeight.setText(String.format("Neseno: %.1f / %.1f kg",
+                player.getInventory().getCurrentWeight(),
+                player.getInventory().getMaxWeight()));
+    }
+
+    /**
+     * Refreshes list of items available in current room.
+     */
+    private void updateRoomItems() {
+        ObservableList<ItemListEntry> roomItemEntries = FXCollections.observableArrayList();
+        if (GameHandler.game != null && GameHandler.game.getCurrentRoom() != null) {
+            for (Item item : GameHandler.game.getCurrentRoom().getItems()) {
+                roomItemEntries.add(new ItemListEntry(item.getName(), item.getWeight(), false));
+            }
+        }
+
+        if (roomItemEntries.isEmpty()) {
+            roomItemEntries.add(new ItemListEntry("V místnosti nejsou žádné věci.", 0, true));
+        }
+        roomItems.setItems(roomItemEntries);
+    }
+
+    /**
+     * Configures list rendering with item icons and click interactions.
+     */
+    private void setUpItemLists() {
+        playerBackpack.setCellFactory(list -> new ItemListCell());
+        roomItems.setCellFactory(list -> new ItemListCell());
+        playerBackpack.setOnMouseClicked(this::onBackpackItemClicked);
+    }
+
+    /**
+     * Drops clicked backpack item.
+     *
+     * @param event click event
+     */
+    private void onBackpackItemClicked(MouseEvent event) {
+        if (event.getButton() != MouseButton.PRIMARY || event.getClickCount() < 1) {
+            return;
+        }
+        dropSelectedBackpackItem(null);
+    }
+
+    /**
+     * JavaFX cell for inventory and room item rows.
+     */
+    private class ItemListCell extends ListCell<ItemListEntry> {
+        private final ImageView icon = new ImageView();
+        private final Label nameLabel = new Label();
+        private final Label weightLabel = new Label();
+        private final HBox content = new HBox(8, icon, nameLabel, weightLabel);
+
+        private ItemListCell() {
+            icon.setFitWidth(24);
+            icon.setFitHeight(24);
+            icon.setPreserveRatio(true);
+            weightLabel.setStyle("-fx-text-fill: #555;");
+        }
+
+        @Override
+        protected void updateItem(ItemListEntry item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty || item == null) {
+                setText(null);
+                setGraphic(null);
+                return;
+            }
+
+            nameLabel.setText(item.name());
+            if (item.placeholder()) {
+                icon.setImage(loadItemIcon(DEFAULT_ITEM_IMAGE.replace(".png", "")));
+                weightLabel.setText("");
+            } else {
+                icon.setImage(loadItemIcon(item.name()));
+                weightLabel.setText(String.format("(%.1f kg)", item.weight()));
+            }
+            setText(null);
+            setGraphic(content);
+        }
+    }
+
+    /**
+     * Loads item icon by item name with fallback to Default.png.
+     *
+     * @param itemName game item name
+     * @return image for list cell
+     */
+    private Image loadItemIcon(String itemName) {
+        String fileName = itemName + ".png";
+        URL iconUrl = getClass().getResource(ITEM_IMAGE_BASE_PATH + fileName);
+        if (iconUrl == null) {
+            iconUrl = getClass().getResource(ITEM_IMAGE_BASE_PATH + DEFAULT_ITEM_IMAGE);
+        }
+        if (iconUrl == null) {
+            return null;
+        }
+        return new Image(iconUrl.toExternalForm());
+    }
+
+    /**
+     * Updates map image according to current room id.
+     * Tries map_<roomId>.png first, then falls back to map.png.
+     */
+    private void updateMapImage() {
+        URL mapUrl = resolveCurrentMapUrl();
+        if (mapUrl != null) {
+            map.setImage(new Image(mapUrl.toExternalForm()));
+        }
+    }
+
+    /**
+     * Resolves current room map resource URL with fallback to default map.
+     *
+     * @return URL to map image or null if not found
+     */
+    private URL resolveCurrentMapUrl() {
+        if (GameHandler.game == null || GameHandler.game.getCurrentRoom() == null) {
+            return getClass().getResource(MAP_IMAGE_BASE_PATH + DEFAULT_MAP_IMAGE);
+        }
+
+        int roomId = GameHandler.game.getCurrentRoom().getId();
+        String roomMapFile = "map_" + roomId + ".png";
+        URL roomMapUrl = getClass().getResource(MAP_IMAGE_BASE_PATH + roomMapFile);
+        if (roomMapUrl != null) {
+            return roomMapUrl;
+        }
+        return getClass().getResource(MAP_IMAGE_BASE_PATH + DEFAULT_MAP_IMAGE);
+    }
+
+    /**
+     * Opens separate window with enlarged current map image.
+     */
+    private void showLargeMapWindow() {
+        URL mapUrl = resolveCurrentMapUrl();
+        if (mapUrl == null) {
+            appendErrorLog("Mapu se nepodařilo načíst.");
+            return;
+        }
+
+        ImageView largeMapView = new ImageView(new Image(mapUrl.toExternalForm()));
+        largeMapView.setPreserveRatio(true);
+        largeMapView.setFitWidth(1000);
+        largeMapView.setFitHeight(700);
+
+        StackPane root = new StackPane(largeMapView);
+        root.setStyle("-fx-padding: 12px; -fx-background-color: #f0f0f0;");
+
+        Stage stage = new Stage();
+        stage.setTitle("Mapa - zvětšené zobrazení");
+        if (map.getScene() != null && map.getScene().getWindow() != null) {
+            stage.initOwner(map.getScene().getWindow());
+            stage.initModality(Modality.WINDOW_MODAL);
+        } else {
+            stage.initModality(Modality.APPLICATION_MODAL);
+        }
+        stage.setScene(new Scene(root, 1050, 760));
+        stage.showAndWait();
     }
 
     /**
@@ -411,6 +692,84 @@ public class MainController {
                 }
             }
         });
+    }
+
+    /**
+     * Rebuilds list of people currently present in room.
+     */
+    private void updatePeopleInRoom() {
+        peopleBox.getChildren().clear();
+
+        if (GameHandler.game.getCurrentRoom() == null) {
+            return;
+        }
+
+        java.util.List<Person> people = GameHandler.game.getCurrentRoom().getOtherPeople();
+        if (people == null || people.isEmpty()) {
+            Label emptyPeopleLabel = new Label("Nikdo v místnosti není");
+            emptyPeopleLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
+            peopleBox.getChildren().add(emptyPeopleLabel);
+            return;
+        }
+
+        for (Person person : people) {
+            Button personButton = new Button(person.toString());
+            personButton.setMaxWidth(Double.MAX_VALUE);
+            if (!person.isAlive()) {
+                personButton.setStyle("-fx-font-size: 14px; -fx-background-color: #ECEFF1; -fx-text-fill: #616161;");
+            } else if (!person.isPeaceful()) {
+                personButton.setStyle("-fx-font-size: 14px; -fx-background-color: #FFEBEE; -fx-text-fill: #B71C1C; -fx-font-weight: bold;");
+            } else {
+                personButton.setStyle("-fx-font-size: 14px; -fx-background-color: #E8F5E9; -fx-text-fill: #1B5E20;");
+            }
+            personButton.setOnAction(event -> interactWithPerson(person));
+            peopleBox.getChildren().add(personButton);
+        }
+    }
+
+    /**
+     * Opens interaction choice for clicked person and executes selected command.
+     *
+     * @param person clicked room person
+     */
+    private void interactWithPerson(Person person) {
+        if (person == null) {
+            return;
+        }
+        if (!person.isAlive()) {
+            appendErrorLog("S mrtvou postavou nelze interagovat.");
+            return;
+        }
+        if (!person.isPeaceful()) {
+            appendPlayerLog("utok " + person.getName() + " (klik)");
+            executeCommandAndLogOutput(("utok " + person.getName()).toLowerCase());
+            refreshView();
+            return;
+        }
+
+        boolean canTrade = person.getInventory() != null && person.getInventory().getItems() != null
+                && !person.getInventory().getItems().isEmpty();
+
+        java.util.List<String> options = new java.util.ArrayList<>();
+        options.add("Mluvit");
+        if (canTrade) {
+            options.add("Obchodovat");
+        }
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Mluvit", options);
+        dialog.setTitle("Interakce");
+        dialog.setHeaderText("Vyber akci pro: " + person.getName());
+        dialog.setContentText("Akce:");
+
+        Optional<String> action = dialog.showAndWait();
+        if (action.isEmpty()) {
+            return;
+        }
+
+        String command = action.get().equals("Obchodovat") ? "nakup " : "mluvit ";
+        appendPlayerLog(command.trim() + " " + person.getName() + " (klik)");
+        executeCommandAndLogOutput((command + person.getName()).toLowerCase());
+        refreshView();
     }
 
     /**
@@ -631,6 +990,16 @@ public class MainController {
      */
     public void clearCmdInput(){
         setCmdInput("");
+    }
+
+    /**
+     * Data holder for one row in inventory/room item list.
+     *
+     * @param name item display name
+     * @param weight item weight in kilograms
+     * @param placeholder true for non-selectable placeholder rows
+     */
+    private record ItemListEntry(String name, double weight, boolean placeholder) {
     }
 
     /**

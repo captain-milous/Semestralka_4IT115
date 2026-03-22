@@ -108,7 +108,7 @@
       </HBox>
       <HBox spacing="10.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
          <children>
-            <TextField fx:id="cmdInput" prefHeight="30.0" prefWidth="1105.0" style="-fx-font-size: 16px;">
+            <TextField fx:id="cmdInput" onAction="#sendCmdInput" prefHeight="30.0" prefWidth="1105.0" style="-fx-font-size: 16px;">
                <HBox.margin>
                   <Insets left="100.0" />
                </HBox.margin></TextField>
@@ -117,26 +117,46 @@
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
-      </HBox>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2" GridPane.rowSpan="2">
+      </HBox>      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2" GridPane.rowSpan="2">
          <children>
-            <Pane prefHeight="38.0" prefWidth="336.0" VBox.vgrow="NEVER">
+            <Pane prefHeight="56.0" prefWidth="336.0" VBox.vgrow="NEVER">
                <children>
                   <Label layoutX="118.0" layoutY="4.0" text="Batoh">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
+                  <Label fx:id="backpackWeight" layoutX="66.0" layoutY="28.0" text="Neseno: 0.0 / 0.0 kg">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
-            <TextArea fx:id="playerBackpack" editable="false" prefHeight="220.0" prefWidth="278.0" style="-fx-font-size: 15px;" wrapText="true" VBox.vgrow="NEVER">
+            <ListView fx:id="playerBackpack" prefHeight="180.0" prefWidth="278.0" style="-fx-font-size: 14px;" VBox.vgrow="NEVER" />
+            <Button mnemonicParsing="false" onAction="#dropSelectedBackpackItem" prefHeight="30.0" prefWidth="278.0" style="-fx-font-size: 14px;" text="Položit vybranou věc">
                <VBox.margin>
-                  <Insets />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </TextArea>
+            </Button>
             <Pane prefHeight="38.0" prefWidth="336.0" VBox.vgrow="NEVER">
                <children>
-                  <Label layoutX="118.0" layoutY="4.0" text="Východy">
+                  <Label layoutX="86.0" layoutY="4.0" text="Věci v místnosti">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <ListView fx:id="roomItems" prefHeight="150.0" prefWidth="278.0" style="-fx-font-size: 14px;" VBox.vgrow="NEVER" />
+            <Button mnemonicParsing="false" onAction="#takeSelectedRoomItem" prefHeight="30.0" prefWidth="278.0" style="-fx-font-size: 14px;" text="Vzít vybranou věc">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Pane prefHeight="38.0" prefWidth="336.0" VBox.vgrow="NEVER">
+               <children>
+                  <Label layoutX="86.0" layoutY="4.0" text="Lidé v místnosti">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -145,7 +165,7 @@
             </Pane>
             <ScrollPane fitToWidth="true" prefHeight="280.0" prefWidth="278.0" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox fx:id="exitsBox" spacing="6.0" />
+                  <VBox fx:id="peopleBox" spacing="6.0" />
                </content>
             </ScrollPane>
          </children>
@@ -176,7 +196,7 @@
       </VBox>
       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
          <children>
-            <Pane prefHeight="38.0" prefWidth="336.0" VBox.vgrow="NEVER">
+            <Pane minHeight="42.0" prefHeight="42.0" prefWidth="336.0" VBox.vgrow="NEVER">
                <children>
                   <Label layoutX="118.0" layoutY="4.0" text="Mapa">
                      <font>
@@ -187,8 +207,17 @@
             </Pane>
             <ImageView fx:id="map" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/map.png" />
-               </image></ImageView>
+                  <Image url="@img/maps/map.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="6.0" />
+               </VBox.margin>
+            </ImageView>
+            <Button mnemonicParsing="false" onAction="#openLargeMapWindow" prefHeight="30.0" prefWidth="300.0" style="-fx-font-size: 14px;" text="Zvětšit mapu">
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin>
+            </Button>
          </children>
          <padding>
             <Insets bottom="10.0" left="5.0" right="10.0" />
@@ -205,11 +234,25 @@
                   </Label>
                </children>
             </Pane>
-            <TextArea fx:id="questList" editable="false" prefHeight="299.0" prefWidth="278.0" style="-fx-font-size: 15px;" wrapText="true" VBox.vgrow="ALWAYS">
+            <TextArea fx:id="questList" editable="false" prefHeight="220.0" prefWidth="278.0" style="-fx-font-size: 15px;" wrapText="true" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </TextArea>
+            <Pane prefHeight="38.0" prefWidth="336.0" VBox.vgrow="NEVER">
+               <children>
+                  <Label layoutX="118.0" layoutY="4.0" text="Východy">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <ScrollPane fitToWidth="true" prefHeight="190.0" prefWidth="278.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="exitsBox" spacing="6.0" />
+               </content>
+            </ScrollPane>
          </children>
          <padding>
             <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />

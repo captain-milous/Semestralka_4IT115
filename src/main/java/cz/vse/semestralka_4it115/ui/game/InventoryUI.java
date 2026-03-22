@@ -110,11 +110,11 @@ public class InventoryUI {
             throw new Exception("Předmět '" + itemName + "' není v místnosti.");
         }
 
-        // 1) Odeber z místnosti
-        currentRoom.removeItem(found);
-
-        // 2) Přidej do inventáře hráče (může vyhodit výjimku, pokud se překročí váhový limit)
+        // 1) Nejprve zkus přidat do inventáře hráče (může vyhodit výjimku při překročení váhového limitu)
         GH.game.getPlayer().addItemToInventory(found);
+
+        // 2) Z místnosti odebírej až po úspěšném přidání do inventáře
+        currentRoom.removeItem(found);
 
         System.out.println("Sebral jste " + found.getName() + ".");
     }

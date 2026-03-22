@@ -6,6 +6,7 @@ import cz.vse.semestralka_4it115.logic.entity.Person;
 import cz.vse.semestralka_4it115.logic.item.Item;
 import cz.vse.semestralka_4it115.logic.space.*;
 
+import java.text.Normalizer;
 import java.util.List;
 
 /**
@@ -136,14 +137,27 @@ public class Game {
      * @return the matching Item if found, otherwise null
      */
     public Item searchInInventory(String itemName) {
+        if (itemName == null || itemName.isBlank()) {
+            return null;
+        }
         List<Item> items = getPlayer().getInventory().getItems();
-        itemName = itemName.toLowerCase();
+        String normalizedInput = normalizeText(itemName);
         for (Item item : items) {
-            if (itemName.startsWith(item.getName().toLowerCase())) {
+            String normalizedItemName = normalizeText(item.getName());
+            if (normalizedItemName.startsWith(normalizedInput)) {
                 return item;
             }
         }
         return null;
+    }
+
+    /**
+     * Normalizes text for accent-insensitive matching.
+     */
+    private String normalizeText(String value) {
+        return Normalizer.normalize(value, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "")
+                .toLowerCase();
     }
 
     /**
