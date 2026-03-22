@@ -5,6 +5,7 @@ import cz.vse.semestralka_4it115.logic.item.Item;
 import cz.vse.semestralka_4it115.logic.space.Difficulty;
 import cz.vse.semestralka_4it115.logic.space.Room;
 import cz.vse.semestralka_4it115.serializer.TxtHandler;
+import cz.vse.semestralka_4it115.ui.game.FightUI;
 import cz.vse.semestralka_4it115.ui.game.GameHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -51,6 +52,8 @@ public class MainController {
     private final Set<Integer> visitedRoomIds = new HashSet<>();
     private final ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
     private boolean gameOver = false;
+    private boolean commandInProgress = false;
+    private boolean endGamePopupShown = false;
 
     @FXML
     private Label playerName;
@@ -103,6 +106,8 @@ public class MainController {
     private void startNewGame() {
         GameHandler.game = new cz.vse.semestralka_4it115.ui.game.Game();
         gameOver = false;
+        commandInProgress = false;
+        endGamePopupShown = false;
         String playerNameInput = requestPlayerName();
         Difficulty difficultyInput = requestDifficulty();
         GameHandler.game.getPlayer().setName(playerNameInput);
@@ -335,8 +340,16 @@ public class MainController {
             appendErrorLog("Hra již skončila. Zvol New game nebo Restart.");
             return;
         }
+        if (commandInProgress) {
+            appendErrorLog("ProbÃ­hÃ¡ akce, poÄkejte na dokonÄenÃ­.");
+            return;
+        }
         if (trade.tryHandleTradeCommand(input)) {
             handleEndGameState();
+            return;
+        }
+        if (input != null && input.toLowerCase().startsWith("utok ")) {
+            executeAttackCommandAsync(input);
             return;
         }
 
@@ -367,6 +380,50 @@ public class MainController {
         handleEndGameState();
     }
 
+    private void executeAttackCommandAsync(String input) {
+        String[] tokens = input.trim().toLowerCase().split("\\s+");
+        if (tokens.length < 2) {
+            appendErrorLog("Pro pÅ™Ã­kaz 'utok' je potÅ™eba zadat osobu.");
+            return;
+        }
+
+        commandInProgress = true;
+        int previousRoomId = getCurrentRoomId();
+        String target = tokens[1];
+
+        Thread combatThread = new Thread(() -> {
+            try {
+                FightUI.start(target, new FightUI.FightLogSink() {
+                    @Override
+                    public void player(String message) {
+                        Platform.runLater(() -> appendCombatPlayerLog(message));
+                    }
+
+                    @Override
+                    public void enemy(String message) {
+                        Platform.runLater(() -> appendCombatEnemyLog(message));
+                    }
+
+                    @Override
+                    public void system(String message) {
+                        Platform.runLater(() -> appendGameLog(message));
+                    }
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> appendErrorLog(e.getMessage()));
+            } finally {
+                Platform.runLater(() -> {
+                    commandInProgress = false;
+                    appendLocationAfterMove(previousRoomId);
+                    handleEndGameState();
+                    refreshView();
+                });
+            }
+        }, "fight-thread");
+        combatThread.setDaemon(true);
+        combatThread.start();
+    }
+
     /**
      * Detects end-game states after each successful command in GUI mode.
      */
@@ -377,6 +434,7 @@ public class MainController {
 
         if (!GameHandler.game.getPlayer().isAlive()) {
             gameOver = true;
+            showEndGamePopup(false);
             appendErrorLog("Prohrál jsi. Hra skončila. Zvol New game nebo Restart.");
             return;
         }
@@ -385,8 +443,25 @@ public class MainController {
                 && GameHandler.game.getCurrentRoom().getId() == 15
                 && GameHandler.game.searchInInventory("Pecet") != null) {
             gameOver = true;
+            showEndGamePopup(true);
             appendGameLog("Vyhrál jsi! Hra skončila. Zvol New game nebo Restart.");
         }
+    }
+
+    private void showEndGamePopup(boolean win) {
+        if (endGamePopupShown) {
+            return;
+        }
+        endGamePopupShown = true;
+        EndGameDialog.show(
+                cmdInput == null || cmdInput.getScene() == null ? null : cmdInput.getScene().getWindow(),
+                win,
+                () -> {
+                    setSystemLog("");
+                    startNewGame();
+                },
+                Platform::exit
+        );
     }
 
     /**
@@ -610,6 +685,14 @@ public class MainController {
         appendLog(message, LogType.DIALOG);
     }
 
+    private void appendCombatPlayerLog(String message) {
+        appendLog(message, LogType.COMBAT_PLAYER);
+    }
+
+    private void appendCombatEnemyLog(String message) {
+        appendLog(message, LogType.COMBAT_ENEMY);
+    }
+
     /**
      * Adds one or more lines into log list with style info.
      *
@@ -657,6 +740,12 @@ public class MainController {
                 } else if (item.type() == LogType.DIALOG) {
                     setText(item.message());
                     setStyle("-fx-text-fill: #6D4C41; -fx-font-style: italic; -fx-font-size: 15px;");
+                } else if (item.type() == LogType.COMBAT_PLAYER) {
+                    setText(item.message());
+                    setStyle("-fx-text-fill: #1565C0; -fx-font-weight: bold; -fx-font-size: 15px;");
+                } else if (item.type() == LogType.COMBAT_ENEMY) {
+                    setText(item.message());
+                    setStyle("-fx-text-fill: #C62828; -fx-font-weight: bold; -fx-font-size: 15px;");
                 } else {
                     setText(item.message());
                     setStyle("-fx-text-fill: #1B5E20; -fx-font-size: 15px;");
@@ -857,7 +946,9 @@ public class MainController {
         PLAYER,
         GAME,
         ERROR,
-        DIALOG
+        DIALOG,
+        COMBAT_PLAYER,
+        COMBAT_ENEMY
     }
 
     /**
