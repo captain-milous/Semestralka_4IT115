@@ -18,7 +18,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -33,10 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.Normalizer;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -801,22 +797,7 @@ public class MainController {
      * @return validated player name
      */
     private String requestPlayerName() {
-        while (true) {
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Nová hra");
-            dialog.setHeaderText("Zadej jméno hráče");
-            dialog.setContentText("Jméno (1-14 znaků):");
-
-            Optional<String> result = dialog.showAndWait();
-            if (result.isEmpty()) {
-                return "Hráč";
-            }
-
-            String candidate = result.get().trim();
-            if (!candidate.isEmpty() && candidate.length() < 15) {
-                return candidate;
-            }
-        }
+        return PlayerNameDialog.requestName(cmdInput == null || cmdInput.getScene() == null ? null : cmdInput.getScene().getWindow());
     }
 
     /**
@@ -825,111 +806,14 @@ public class MainController {
      * @return selected difficulty (default EASY if canceled)
      */
     private Difficulty requestDifficulty() {
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("Jednoduchá", "Jednoduchá", "Normální", "Těžká");
-        dialog.setTitle("Nová hra");
-        dialog.setHeaderText("Vyber obtížnost hry");
-        dialog.setContentText("Obtiznost:");
-
-        Optional<String> result = dialog.showAndWait();
-        String selected = result.orElse("Jednoduchá");
-
-        return switch (selected) {
-            case "Normální" -> Difficulty.MEDIUM;
-            case "Těžká" -> Difficulty.HARD;
-            default -> Difficulty.EASY;
-        };
+        return DifficultyDialog.requestDifficulty(cmdInput == null || cmdInput.getScene() == null ? null : cmdInput.getScene().getWindow());
     }
 
     /**
      * Updates quest panel so it shows static objectives and removes completed ones.
      */
     private void updateQuestList() {
-        Map<String, Boolean> objectives = new LinkedHashMap<>();
-        objectives.put("- Jdi za Králem do trůnního sálu a seber \"Pečeť\"", isTaskOneDone());
-        objectives.put("- Najdi ve hradě \"Klíč\" k tajné chodbě a odejdi z hradu tajnou chodbou", isTaskTwoDone());
-        objectives.put("- Zabij nepřítele, které potkáš po cestě a doruč pečeť do druhého hradu", isTaskThreeDone());
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("Tvé úkoly:\n");
-        boolean hasAnyOpenTask = false;
-
-        for (Map.Entry<String, Boolean> objective : objectives.entrySet()) {
-            if (!objective.getValue()) {
-                sb.append(objective.getKey()).append("\n");
-                hasAnyOpenTask = true;
-            }
-        }
-
-        if (!hasAnyOpenTask) {
-            sb.append("- Všechny úkoly jsou splněny.");
-        }
-
-        setQuestList(sb.toString().trim());
-    }
-
-    /**
-     * First objective: player has the seal in inventory.
-     */
-    private boolean isTaskOneDone() {
-        return hasInventoryItem("pečeť");
-    }
-
-    /**
-     * Second objective: player has key and already left the secret passage area to outside rooms.
-     */
-    private boolean isTaskTwoDone() {
-        if (!hasInventoryItem("klíč")) {
-            return false;
-        }
-        return GameHandler.game.getCurrentRoom() != null && GameHandler.game.getCurrentRoom().getId() >= 11;
-    }
-
-    /**
-     * Third objective: player reached final room with seal and all enemies in visited rooms are dead.
-     */
-    private boolean isTaskThreeDone() {
-        if (!hasInventoryItem("pečeť")) {
-            return false;
-        }
-        if (GameHandler.game.getCurrentRoom() == null || GameHandler.game.getCurrentRoom().getId() != 15) {
-            return false;
-        }
-        for (Room room : GameHandler.game.getMap().getLayout()) {
-            if (!visitedRoomIds.contains(room.getId())) {
-                continue;
-            }
-            if (room.getOtherPeople() == null) {
-                continue;
-            }
-            boolean hasLivingEnemy = room.getOtherPeople().stream()
-                    .anyMatch(p -> !p.isPeaceful() && p.isAlive());
-            if (hasLivingEnemy) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Checks inventory by normalized name prefix (diacritics-insensitive).
-     *
-     * @param expectedPrefix item prefix to find
-     * @return true if item exists in inventory
-     */
-    private boolean hasInventoryItem(String expectedPrefix) {
-        String normalizedPrefix = normalize(expectedPrefix);
-        return GameHandler.game.getPlayer().getInventory().getItems().stream()
-                .map(item -> normalize(item.getName()))
-                .anyMatch(name -> name.startsWith(normalizedPrefix));
-    }
-
-    /**
-     * Normalizes Czech text to ascii-like lowercase text.
-     */
-    private String normalize(String value) {
-        String noDiacritics = Normalizer.normalize(value, Normalizer.Form.NFD)
-                .replaceAll("\\p{M}", "");
-        return noDiacritics.toLowerCase();
+        setQuestList(QuestTracker.buildQuestText(GameHandler.game, visitedRoomIds));
     }
 
     /**
