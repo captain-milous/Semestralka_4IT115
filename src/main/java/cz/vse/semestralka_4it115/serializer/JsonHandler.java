@@ -2,6 +2,7 @@ package cz.vse.semestralka_4it115.serializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import cz.vse.semestralka_4it115.logic.item.Item;
 import cz.vse.semestralka_4it115.logic.space.Map;
 import cz.vse.semestralka_4it115.logic.space.Room;
 
@@ -24,6 +25,7 @@ public class JsonHandler {
     private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(Room.class, new RoomSerializer())
+            .registerTypeAdapter(Item.class, new ItemDeserializer())
             .create();
 
     /**
@@ -52,4 +54,3 @@ public class JsonHandler {
         }
     }
 }
-

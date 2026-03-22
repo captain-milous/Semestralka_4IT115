@@ -102,14 +102,37 @@ public class MainController {
      * Starts a new game for GUI mode and writes initial information to system log.
      */
     private void startNewGame() {
+        startGameSession(null);
+    }
+
+    /**
+     * Restarts the game while preserving current player name and asking only for difficulty.
+     */
+    private void restartWithCurrentPlayerName() {
+        String currentPlayerName = null;
+        if (GameHandler.game != null && GameHandler.game.getPlayer() != null) {
+            currentPlayerName = GameHandler.game.getPlayer().getName();
+        }
+        startGameSession(currentPlayerName);
+    }
+
+    /**
+     * Initializes a fresh game session and asks only for inputs that are not preset.
+     *
+     * @param presetPlayerName player name to reuse; if null/blank, user is prompted for a new one
+     */
+    private void startGameSession(String presetPlayerName) {
         GameHandler.game = new cz.vse.semestralka_4it115.ui.game.Game();
         gameOver = false;
         commandInProgress = false;
         endGamePopupShown = false;
-        String playerNameInput = requestPlayerName();
-        if (playerNameInput == null) {
-            Platform.exit();
-            return;
+        String playerNameInput = presetPlayerName;
+        if (playerNameInput == null || playerNameInput.isBlank()) {
+            playerNameInput = requestPlayerName();
+            if (playerNameInput == null) {
+                Platform.exit();
+                return;
+            }
         }
         Difficulty difficultyInput = requestDifficulty();
         if (difficultyInput == null) {
@@ -278,13 +301,13 @@ public class MainController {
     }
 
     /**
-     * Restarts the current game (same behavior as New Game in GUI).
+     * Restarts current game state while keeping player name and reselecting difficulty.
      *
      * @param actionEvent menu/button action
      */
     public void restartGame(ActionEvent actionEvent) {
         setSystemLog("");
-        startNewGame();
+        restartWithCurrentPlayerName();
     }
 
     /**
@@ -482,7 +505,7 @@ public class MainController {
                 win,
                 () -> {
                     setSystemLog("");
-                    startNewGame();
+                    restartWithCurrentPlayerName();
                 },
                 Platform::exit
         );

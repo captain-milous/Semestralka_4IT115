@@ -134,7 +134,7 @@ public class Inventory {
         if (tempWeight > maxWeight) {
             throw new Exception("Nelze přidat předmět: celková hmotnost překračuje maximální hmotnostní limit batohu.");
         } else {
-            currentWeight += tempWeight;
+            currentWeight = tempWeight;
             items.add(item);
         }
     }

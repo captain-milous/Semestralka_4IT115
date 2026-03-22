@@ -82,4 +82,14 @@ class InventoryTest {
         assertTrue(output.contains("1. Feather"));
         assertTrue(output.contains("2. Stone"));
     }
+
+    @Test
+    void testCurrentWeightAfterMultipleAdds() throws Exception {
+        defaultInventory.addItem(new Item("Pecet", 1, 0.1));
+        defaultInventory.addItem(new Item("Pivo", 1, 1.0));
+        defaultInventory.addItem(new Item("Pivo", 1, 1.0));
+        defaultInventory.addItem(new Item("Klic", 1, 0.1));
+
+        assertEquals(2.2, defaultInventory.getCurrentWeight(), 0.0001);
+    }
 }
