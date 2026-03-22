@@ -134,7 +134,12 @@
                </children>
             </Pane>
             <ListView fx:id="playerBackpack" prefHeight="180.0" prefWidth="278.0" style="-fx-font-size: 14px;" VBox.vgrow="NEVER" />
-            <Button mnemonicParsing="false" onAction="#dropSelectedBackpackItem" prefHeight="30.0" prefWidth="278.0" style="-fx-font-size: 14px;" text="Položit vybranou věc">
+            <Button mnemonicParsing="false" onAction="#dropSelectedBackpackItem" prefHeight="30.0" prefWidth="278.0" style="-fx-font-size: 14px;" text="Vyhodit vybranou věc">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#useSelectedBackpackItem" prefHeight="30.0" prefWidth="278.0" style="-fx-font-size: 14px;" text="Použít">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>

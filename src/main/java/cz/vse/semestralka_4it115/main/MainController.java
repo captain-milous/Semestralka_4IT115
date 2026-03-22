@@ -318,6 +318,24 @@ public class MainController {
     }
 
     /**
+     * Uses selected backpack item.
+     *
+     * @param actionEvent button click event
+     */
+    public void useSelectedBackpackItem(ActionEvent actionEvent) {
+        ItemListEntry selectedItem = playerBackpack.getSelectionModel().getSelectedItem();
+        if (selectedItem == null || selectedItem.placeholder()) {
+            appendErrorLog("Vyberte věc z batohu, kterou chcete použít.");
+            return;
+        }
+
+        String itemName = selectedItem.name();
+        appendPlayerLog("batoh pouzij " + itemName + " (klik)");
+        executeCommandAndLogOutput("batoh pouzij " + itemName.toLowerCase());
+        refreshView();
+    }
+
+    /**
      * Takes selected room item to player's backpack.
      *
      * @param actionEvent button click event
