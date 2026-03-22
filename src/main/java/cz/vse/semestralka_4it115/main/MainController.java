@@ -21,8 +21,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
@@ -109,7 +107,15 @@ public class MainController {
         commandInProgress = false;
         endGamePopupShown = false;
         String playerNameInput = requestPlayerName();
+        if (playerNameInput == null) {
+            Platform.exit();
+            return;
+        }
         Difficulty difficultyInput = requestDifficulty();
+        if (difficultyInput == null) {
+            Platform.exit();
+            return;
+        }
         GameHandler.game.getPlayer().setName(playerNameInput);
         GameHandler.setGameDifficulty(difficultyInput);
 
@@ -307,7 +313,7 @@ public class MainController {
     public void dropSelectedBackpackItem(ActionEvent actionEvent) {
         ItemListEntry selectedItem = playerBackpack.getSelectionModel().getSelectedItem();
         if (selectedItem == null || selectedItem.placeholder()) {
-            appendErrorLog("Vyberte věc z batohu, kterou chcete položit.");
+            appendErrorLog("Vyberte věc z batohu, kterou chcete vyhodit.");
             return;
         }
 
@@ -359,7 +365,7 @@ public class MainController {
             return;
         }
         if (commandInProgress) {
-            appendErrorLog("ProbÃ­hÃ¡ akce, poÄkejte na dokonÄenÃ­.");
+            appendErrorLog("Probíhá akce, počkejte na dokončení.");
             return;
         }
         if (trade.tryHandleTradeCommand(input)) {
@@ -401,7 +407,7 @@ public class MainController {
     private void executeAttackCommandAsync(String input) {
         String[] tokens = input.trim().toLowerCase().split("\\s+");
         if (tokens.length < 2) {
-            appendErrorLog("Pro pÅ™Ã­kaz 'utok' je potÅ™eba zadat osobu.");
+            appendErrorLog("Pro příkaz 'utok' je potřeba zadat osobu.");
             return;
         }
 
@@ -562,19 +568,6 @@ public class MainController {
     private void setUpItemLists() {
         playerBackpack.setCellFactory(list -> new ItemListCell(this::loadItemIcon));
         roomItems.setCellFactory(list -> new ItemListCell(this::loadItemIcon));
-        playerBackpack.setOnMouseClicked(this::onBackpackItemClicked);
-    }
-
-    /**
-     * Drops clicked backpack item.
-     *
-     * @param event click event
-     */
-    private void onBackpackItemClicked(MouseEvent event) {
-        if (event.getButton() != MouseButton.PRIMARY || event.getClickCount() < 1) {
-            return;
-        }
-        dropSelectedBackpackItem(null);
     }
 
     /**

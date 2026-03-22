@@ -32,9 +32,9 @@ public final class DifficultyDialog {
             stage.setScene(new Scene(root));
             controller.setStage(stage);
             stage.showAndWait();
-            return controller.getResultOrDefault();
+            return controller.getResult();
         } catch (Exception e) {
-            return Difficulty.EASY;
+            return null;
         }
     }
 }

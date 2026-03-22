@@ -31,9 +31,9 @@ public final class PlayerNameDialog {
             stage.setScene(new Scene(root));
             controller.setStage(stage);
             stage.showAndWait();
-            return controller.getResultOrDefault();
+            return controller.getResult();
         } catch (Exception e) {
-            return "Hrac";
+            return null;
         }
     }
 }

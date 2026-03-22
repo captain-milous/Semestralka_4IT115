@@ -19,6 +19,7 @@ public class PlayerNameController {
 
     private Stage stage;
     private String resultName;
+    private boolean cancelled = true;
 
     @FXML
     private void initialize() {
@@ -31,8 +32,8 @@ public class PlayerNameController {
         this.stage = stage;
     }
 
-    public String getResultOrDefault() {
-        return resultName == null ? "Hrac" : resultName;
+    public String getResult() {
+        return cancelled ? null : resultName;
     }
 
     @FXML
@@ -42,6 +43,7 @@ public class PlayerNameController {
             return;
         }
         resultName = candidate;
+        cancelled = false;
         stage.close();
     }
 

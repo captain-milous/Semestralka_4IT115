@@ -168,7 +168,7 @@
                   </Label>
                </children>
             </Pane>
-            <ScrollPane fitToWidth="true" prefHeight="280.0" prefWidth="278.0" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToWidth="true" maxHeight="170.0" minHeight="170.0" prefHeight="170.0" prefWidth="278.0" VBox.vgrow="NEVER">
                <content>
                   <VBox fx:id="peopleBox" spacing="6.0" />
                </content>

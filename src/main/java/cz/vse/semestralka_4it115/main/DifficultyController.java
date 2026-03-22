@@ -14,7 +14,8 @@ public class DifficultyController {
     private ComboBox<String> difficultyCombo;
 
     private Stage stage;
-    private Difficulty result = Difficulty.EASY;
+    private Difficulty result;
+    private boolean cancelled = true;
 
     @FXML
     private void initialize() {
@@ -26,8 +27,8 @@ public class DifficultyController {
         this.stage = stage;
     }
 
-    public Difficulty getResultOrDefault() {
-        return result == null ? Difficulty.EASY : result;
+    public Difficulty getResult() {
+        return cancelled ? null : result;
     }
 
     @FXML
@@ -40,6 +41,7 @@ public class DifficultyController {
         } else {
             result = Difficulty.EASY;
         }
+        cancelled = false;
         stage.close();
     }
 
