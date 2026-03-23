@@ -417,7 +417,11 @@ public class MainController {
 
         String commandOutput = outputBuffer.toString(StandardCharsets.UTF_8).trim();
         if (!commandOutput.isEmpty()) {
-            appendGameLog(commandOutput);
+            if (commandSuccess && isTalkCommand(input)) {
+                appendDialogLog(commandOutput);
+            } else {
+                appendGameLog(commandOutput);
+            }
         }
 
         if (commandSuccess) {
@@ -425,6 +429,14 @@ public class MainController {
         }
 
         handleEndGameState();
+    }
+
+    private boolean isTalkCommand(String input) {
+        if (input == null || input.isBlank()) {
+            return false;
+        }
+        String normalizedInput = input.trim().toLowerCase();
+        return normalizedInput.equals("mluvit") || normalizedInput.startsWith("mluvit ");
     }
 
     private void executeAttackCommandAsync(String input) {
