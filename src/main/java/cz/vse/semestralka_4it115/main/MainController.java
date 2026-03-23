@@ -8,6 +8,7 @@ import cz.vse.semestralka_4it115.score.BestResultsService;
 import cz.vse.semestralka_4it115.serializer.TxtHandler;
 import cz.vse.semestralka_4it115.ui.game.FightUI;
 import cz.vse.semestralka_4it115.ui.game.GameHandler;
+import cz.vse.semestralka_4it115.ui.game.GameStateObserver;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -34,9 +35,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * JavaFX controller for the main game window.
@@ -50,6 +54,9 @@ public class MainController {
     private static final String DEFAULT_ITEM_IMAGE = "Default.png";
     private final GuiCommandExecutor commandExecutor = new GuiCommandExecutor(this::showLargeMapWindow);
     private final BestResultsService bestResultsService = BestResultsService.createDefault();
+    private final GameStateObserver gameStateObserver = this::onGameStateChanged;
+    private final Map<String, Image> itemIconCache = new HashMap<>();
+    private final AtomicBoolean refreshScheduled = new AtomicBoolean(false);
     private Trade trade;
     private final Set<Integer> visitedRoomIds = new HashSet<>();
     private final ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
@@ -93,10 +100,11 @@ public class MainController {
     public void initialize() {
         trade = new Trade(
                 () -> cmdInput != null && cmdInput.getScene() != null ? cmdInput.getScene().getWindow() : null,
-                this::refreshView,
+                GameHandler::notifyGameStateChanged,
                 this::appendGameLog,
                 this::appendErrorLog
         );
+        GameHandler.addGameStateObserver(gameStateObserver);
         setUpSystemLog();
         setUpItemLists();
         startNewGame();
@@ -126,7 +134,7 @@ public class MainController {
      * @param presetPlayerName player name to reuse; if null/blank, user is prompted for a new one
      */
     private void startGameSession(String presetPlayerName) {
-        GameHandler.game = new cz.vse.semestralka_4it115.ui.game.Game();
+        GameHandler.setGame(new cz.vse.semestralka_4it115.ui.game.Game());
         gameOver = false;
         commandInProgress = false;
         endGamePopupShown = false;
@@ -158,7 +166,7 @@ public class MainController {
         appendGameLog("Napiš \"help\" pro nápovědu.");
         appendSystemLog("Nacházíš se v " + GameHandler.game.getCurrentRoom().getName() + ".");
         appendSystemLog(GameHandler.game.getCurrentRoom().getDescription());
-        refreshView();
+        GameHandler.notifyGameStateChanged();
     }
 
     /**
@@ -290,7 +298,6 @@ public class MainController {
             executeCommandAndLogOutput(input.toLowerCase());
         }
 
-        refreshView();
         clearCmdInput();
     }
 
@@ -320,6 +327,7 @@ public class MainController {
      * @param actionEvent menu/button action
      */
     public void closeApp(ActionEvent actionEvent) {
+        GameHandler.removeGameStateObserver(gameStateObserver);
         Platform.exit();
     }
 
@@ -346,8 +354,8 @@ public class MainController {
         }
 
         GameHandler.game.getPlayer().setName(newName);
-        setPlayerName(newName);
         appendGameLog("Jmeno hrace bylo zmeneno na: " + newName + ".");
+        GameHandler.notifyGameStateChanged();
     }
 
     /**
@@ -396,7 +404,6 @@ public class MainController {
         String itemName = selectedItem.name();
         appendPlayerLog("batoh zahod " + itemName + " (klik)");
         executeCommandAndLogOutput("batoh zahod " + itemName.toLowerCase());
-        refreshView();
     }
 
     /**
@@ -414,7 +421,6 @@ public class MainController {
         String itemName = selectedItem.name();
         appendPlayerLog("batoh pouzij " + itemName + " (klik)");
         executeCommandAndLogOutput("batoh pouzij " + itemName.toLowerCase());
-        refreshView();
     }
 
     /**
@@ -432,7 +438,6 @@ public class MainController {
         String itemName = selectedItem.name();
         appendPlayerLog("batoh vezmi " + itemName + " (klik)");
         executeCommandAndLogOutput("batoh vezmi " + itemName.toLowerCase());
-        refreshView();
     }
 
     private void executeCommandAndLogOutput(String input) {
@@ -482,6 +487,9 @@ public class MainController {
         }
 
         handleEndGameState();
+        if (commandSuccess) {
+            GameHandler.notifyGameStateChanged();
+        }
     }
 
     private boolean isTalkCommand(String input) {
@@ -528,7 +536,7 @@ public class MainController {
                     commandInProgress = false;
                     appendLocationAfterMove(previousRoomId);
                     handleEndGameState();
-                    refreshView();
+                    GameHandler.notifyGameStateChanged();
                 });
             }
         }, "fight-thread");
@@ -593,6 +601,23 @@ public class MainController {
     private void showHelpInLog() {
         String helpText = new TxtHandler().loadTXT(HELP_FILE).trim();
         appendGameLog(helpText);
+    }
+
+    /**
+     * Observer callback used to refresh GUI after model state changes.
+     */
+    private void onGameStateChanged() {
+        if (Platform.isFxApplicationThread()) {
+            refreshView();
+        } else {
+            if (!refreshScheduled.compareAndSet(false, true)) {
+                return;
+            }
+            Platform.runLater(() -> {
+                refreshScheduled.set(false);
+                refreshView();
+            });
+        }
     }
 
     /**
@@ -676,18 +701,19 @@ public class MainController {
      * @return image for list cell
      */
     private Image loadItemIcon(String itemName) {
-        URL iconUrl = null;
-        if (itemName != null && !itemName.isBlank()) {
-            String fileName = itemName + ".png";
-            iconUrl = getClass().getResource(ITEM_IMAGE_BASE_PATH + fileName);
-        }
-        if (iconUrl == null) {
-            iconUrl = getClass().getResource(ITEM_IMAGE_BASE_PATH + DEFAULT_ITEM_IMAGE);
-        }
-        if (iconUrl == null) {
-            return null;
-        }
-        return new Image(iconUrl.toExternalForm());
+        String requestedFileName = (itemName == null || itemName.isBlank())
+                ? DEFAULT_ITEM_IMAGE
+                : itemName + ".png";
+        return itemIconCache.computeIfAbsent(requestedFileName, fileName -> {
+            URL iconUrl = getClass().getResource(ITEM_IMAGE_BASE_PATH + fileName);
+            if (iconUrl == null) {
+                iconUrl = getClass().getResource(ITEM_IMAGE_BASE_PATH + DEFAULT_ITEM_IMAGE);
+            }
+            if (iconUrl == null) {
+                return null;
+            }
+            return new Image(iconUrl.toExternalForm());
+        });
     }
 
     /**
@@ -697,7 +723,11 @@ public class MainController {
     private void updateMapImage() {
         URL mapUrl = resolveCurrentMapUrl();
         if (mapUrl != null) {
-            map.setImage(new Image(mapUrl.toExternalForm()));
+            String mapUri = mapUrl.toExternalForm();
+            Image currentImage = map.getImage();
+            if (currentImage == null || currentImage.getUrl() == null || !currentImage.getUrl().equals(mapUri)) {
+                map.setImage(new Image(mapUri));
+            }
         }
     }
 
@@ -935,7 +965,6 @@ public class MainController {
         if (!person.isPeaceful()) {
             appendPlayerLog("utok " + person.getName() + " (klik)");
             executeCommandAndLogOutput(("utok " + person.getName()).toLowerCase());
-            refreshView();
             return;
         }
 
@@ -960,7 +989,6 @@ public class MainController {
             appendPlayerLog("mluvit " + person.getName() + " (klik)");
             executeCommandAndLogOutput(("mluvit " + person.getName()).toLowerCase());
         }
-        refreshView();
     }
 
     /**
@@ -1009,7 +1037,6 @@ public class MainController {
     private void moveToExit(int exitIndex, String roomName) {
         appendPlayerLog("jdi " + roomName + " (klik)");
         executeCommandAndLogOutput("jdi " + exitIndex);
-        refreshView();
     }
 
     /**

@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Provides methods to manage game loading and map selection based on difficulty.
@@ -21,6 +22,7 @@ import java.util.Random;
  */
 public class GameHandler {
     public static Game game = new Game();
+    private static final List<GameStateObserver> gameStateObservers = new CopyOnWriteArrayList<>();
 
     /**
      * Constructs a new GameHandler and initializes a default Game instance.
@@ -36,6 +38,20 @@ public class GameHandler {
      */
     public static void setGameDifficulty(Difficulty difficulty) {
         game.setDifficulty(difficulty);
+        notifyGameStateChanged();
+    }
+
+    /**
+     * Replaces current game instance and notifies observers.
+     *
+     * @param newGame the new game instance to use
+     */
+    public static void setGame(Game newGame) {
+        if (newGame == null) {
+            throw new IllegalArgumentException("Game instance must not be null.");
+        }
+        game = newGame;
+        notifyGameStateChanged();
     }
 
     /**
@@ -59,9 +75,50 @@ public class GameHandler {
             String fileName = getRandomMapFile(filePath);
             filePath = filePath + fileName;
             game.setMap(JsonHandler.loadMap(filePath));
+            notifyGameStateChanged();
         } catch (Exception e) {
             throw new FileNotFoundException(e.getMessage());
         }
+    }
+
+    /**
+     * Registers observer for game state updates.
+     *
+     * @param observer observer to register
+     */
+    public static void addGameStateObserver(GameStateObserver observer) {
+        if (observer == null || gameStateObservers.contains(observer)) {
+            return;
+        }
+        gameStateObservers.add(observer);
+    }
+
+    /**
+     * Unregisters observer for game state updates.
+     *
+     * @param observer observer to remove
+     */
+    public static void removeGameStateObserver(GameStateObserver observer) {
+        if (observer == null) {
+            return;
+        }
+        gameStateObservers.remove(observer);
+    }
+
+    /**
+     * Notifies all registered observers that game state changed.
+     */
+    public static void notifyGameStateChanged() {
+        for (GameStateObserver observer : gameStateObservers) {
+            observer.onGameStateChanged();
+        }
+    }
+
+    /**
+     * Clears observer registrations (primarily for tests).
+     */
+    public static void clearGameStateObservers() {
+        gameStateObservers.clear();
     }
 
     /**
