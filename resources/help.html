@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Napoveda - Kraluv posel</title>
+    <link rel="stylesheet" href="help.css">
+</head>
+<body>
+<main class="wrap">
+    <header class="hero">
+        <h1>Napoveda - Kraluv posel</h1>
+        <p>Prehled prikazu a tipy pro ovladani hry.</p>
+    </header>
+
+    <section class="card">
+        <h2>Zakladni prikazy</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Prikaz</th>
+                <th>Popis</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td><code>help</code></td><td>Zobrazi napovedu.</td></tr>
+            <tr><td><code>exit</code></td><td>Ukonci hru.</td></tr>
+            <tr><td><code>jdi &lt;nazev/id&gt;</code></td><td>Presun do sousedni mistnosti.</td></tr>
+            <tr><td><code>utok &lt;jmeno/id&gt;</code></td><td>Utok na nepratele v mistnosti.</td></tr>
+            <tr><td><code>mluvit &lt;jmeno/id&gt;</code></td><td>Rozhovor s postavou.</td></tr>
+            <tr><td><code>nakup &lt;jmeno/id&gt;</code></td><td>Obchod s postavou.</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="card">
+        <h2>Batoh</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Prikaz</th>
+                <th>Popis</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td><code>batoh list</code></td><td>Vypis obsahu batohu.</td></tr>
+            <tr><td><code>batoh info &lt;nazev/id&gt;</code></td><td>Detail predmetu v batohu.</td></tr>
+            <tr><td><code>batoh vezmi &lt;nazev/id&gt;</code></td><td>Vezme predmet z mistnosti.</td></tr>
+            <tr><td><code>batoh zahod &lt;nazev/id&gt;</code></td><td>Zahodi predmet z batohu.</td></tr>
+            <tr><td><code>batoh pouzij &lt;nazev/id&gt;</code></td><td>Pouzije predmet (napr. jidlo).</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="card">
+        <h2>Prohledat</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Prikaz</th>
+                <th>Popis</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td><code>prohledat</code></td><td>Zakladni popis mistnosti.</td></tr>
+            <tr><td><code>prohledat podrobny</code></td><td>Detail mistnosti + lide + veci + vychody.</td></tr>
+            <tr><td><code>prohledat vychody</code></td><td>Vypise vychody.</td></tr>
+            <tr><td><code>prohledat lide</code></td><td>Vypise postavy v mistnosti.</td></tr>
+            <tr><td><code>prohledat veci</code></td><td>Vypise predmety v mistnosti.</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="card">
+        <h2>Poznamky</h2>
+        <ul>
+            <li>U parametru <code>&lt;nazev/id&gt;</code> lze zadat cislo nebo zacatek nazvu.</li>
+            <li>V GUI lze pouzit i klikani na vychody, postavy a predmety.</li>
+            <li>Jmeno hrace lze zmenit behem hry v menu <strong>Edit -&gt; Zmenit jmeno hrace</strong>.</li>
+            <li>Nejlepsi vysledky otevres v menu <strong>File -&gt; Best results</strong>.</li>
+            <li>Do vysledku se uklada datum a cas, jmeno hrace, penize a obtiznost.</li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>

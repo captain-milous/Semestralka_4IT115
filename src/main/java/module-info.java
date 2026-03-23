@@ -1,6 +1,7 @@
 module cz.vse.semestralka_4it115 {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.web;
     requires gson;
     requires java.sql;
 

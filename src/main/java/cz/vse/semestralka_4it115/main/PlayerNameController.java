@@ -32,6 +32,16 @@ public class PlayerNameController {
         this.stage = stage;
     }
 
+    public void setInitialName(String initialName) {
+        if (initialName == null) {
+            return;
+        }
+        String normalizedName = normalize(initialName);
+        nameField.setText(normalizedName);
+        nameField.positionCaret(normalizedName.length());
+        updateValidation(normalizedName);
+    }
+
     public String getResult() {
         return cancelled ? null : resultName;
     }

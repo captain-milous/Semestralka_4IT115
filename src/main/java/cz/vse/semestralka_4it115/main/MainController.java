@@ -324,6 +324,46 @@ public class MainController {
     }
 
     /**
+     * Changes current player name without restarting the game.
+     *
+     * @param actionEvent menu action
+     */
+    public void changePlayerName(ActionEvent actionEvent) {
+        if (GameHandler.game == null || GameHandler.game.getPlayer() == null) {
+            appendErrorLog("Hra neni pripravena na zmenu jmena.");
+            return;
+        }
+
+        String currentName = GameHandler.game.getPlayer().getName();
+        String newName = PlayerNameDialog.requestName(
+                cmdInput == null || cmdInput.getScene() == null ? null : cmdInput.getScene().getWindow(),
+                "Zmena jmena hrace",
+                currentName
+        );
+
+        if (newName == null || newName.equals(currentName)) {
+            return;
+        }
+
+        GameHandler.game.getPlayer().setName(newName);
+        setPlayerName(newName);
+        appendGameLog("Jmeno hrace bylo zmeneno na: " + newName + ".");
+    }
+
+    /**
+     * Opens local HTML help file in a modal window.
+     *
+     * @param actionEvent menu action
+     */
+    public void openHelpHtml(ActionEvent actionEvent) {
+        try {
+            HelpHtmlDialog.show(cmdInput == null || cmdInput.getScene() == null ? null : cmdInput.getScene().getWindow());
+        } catch (RuntimeException e) {
+            appendErrorLog("Nepodarilo se otevrit HTML napovedu: " + e.getMessage());
+        }
+    }
+
+    /**
      * Opens enlarged map window from GUI button.
      *
      * @param actionEvent button click event

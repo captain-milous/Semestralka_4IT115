@@ -1,16 +1,30 @@
-Seznam dostupných příkazů:
-help                           - zobrazí tuto nápovědu
-exit                           - ukončí hru
-jdi <nazev/id>                 - přejde do místnosti
-utok <jméno/id>                - zaútočí na postavu
-batoh list                     - zobrazí obsah batohu
-batoh info <nazev/id>          - vypíše detaily předmětu
-batoh vezmi <nazev/id>         - vezme předmět z místnosti
-batoh zahod <nazev/id>         - zahodí předmět z batohu
-prohledat                      - základní info o místnosti
-prohledat podrobny             - podrobné info o místnosti
-prohledat vychody              - vypíše východy
-prohledat lide                 - vypíše postavy
-prohledat veci                 - vypíše předměty v místnosti
-nakup <nazev/id>               - nakoupí u prodejce
-mluvit <jméno/id>              - promluví s NPC
+Seznam dostupnych prikazu:
+
+Zaklad:
+help                           - zobrazi tuto napovedu
+exit                           - ukonci hru
+jdi <nazev/id>                 - prejde do mistnosti
+utok <jmeno/id>                - utok na nepratele v mistnosti
+mluvit <jmeno/id>              - rozhovor s postavou
+nakup <jmeno/id>               - otevre obchod s postavou
+
+Batoh:
+batoh list                     - vypise obsah batohu
+batoh info <nazev/id>          - detail predmetu v batohu
+batoh vezmi <nazev/id>         - vezme predmet z mistnosti
+batoh zahod <nazev/id>         - zahodi predmet z batohu
+batoh pouzij <nazev/id>        - pouzije predmet (napr. jidlo)
+
+Prohledat:
+prohledat                      - zakladni popis mistnosti
+prohledat podrobny             - detail mistnosti + lide + veci + vychody
+prohledat vychody              - vypise vychody
+prohledat lide                 - vypise postavy v mistnosti
+prohledat veci                 - vypise predmety v mistnosti
+
+Poznamky:
+- U parametru <nazev/id> lze zadat cislo nebo zacatek nazvu.
+- V GUI lze misto psani pouzit i klikani (vychody, lide, predmety).
+- Jmeno hrace lze zmenit behem hry v menu: Edit -> Zmenit jmeno hrace.
+- Nejlepsi vysledky otevres v menu: File -> Best results.
+- Do vysledku se uklada: datum a cas, jmeno, penize, obtiznost.

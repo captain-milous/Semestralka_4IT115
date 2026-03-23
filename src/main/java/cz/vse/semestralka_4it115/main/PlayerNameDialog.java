@@ -15,13 +15,17 @@ public final class PlayerNameDialog {
     }
 
     public static String requestName(Window owner) {
+        return requestName(owner, "Nova hra", null);
+    }
+
+    public static String requestName(Window owner, String title, String initialName) {
         try {
             FXMLLoader loader = new FXMLLoader(PlayerNameDialog.class.getResource("player-name-dialog.fxml"));
             Parent root = loader.load();
             PlayerNameController controller = loader.getController();
 
             Stage stage = new Stage();
-            stage.setTitle("Nova hra");
+            stage.setTitle(title == null || title.isBlank() ? "Nova hra" : title);
             if (owner != null) {
                 stage.initOwner(owner);
                 stage.initModality(Modality.WINDOW_MODAL);
@@ -30,6 +34,7 @@ public final class PlayerNameDialog {
             }
             stage.setScene(new Scene(root));
             controller.setStage(stage);
+            controller.setInitialName(initialName);
             stage.showAndWait();
             return controller.getResult();
         } catch (Exception e) {
