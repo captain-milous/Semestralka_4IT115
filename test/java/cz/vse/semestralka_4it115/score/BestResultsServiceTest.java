@@ -67,4 +67,22 @@ class BestResultsServiceTest {
         assertEquals(expected.difficulty(), loaded.get(0).difficulty());
         assertTrue(rawCsv.contains("\"Karel, \"\"Lovec\"\"\""));
     }
+
+    @Test
+    void repositoryLoadsLegacyCsvWithoutDifficultyAsEasy() throws Exception {
+        Path csvPath = tempDir.resolve("legacy-best-results.csv");
+        String legacyCsv = """
+                date_time,player_name,money
+                2026-03-23 11:30:00,LegacyPlayer,170
+                """;
+        Files.writeString(csvPath, legacyCsv, StandardCharsets.UTF_8);
+
+        BestResultCsvRepository repository = new BestResultCsvRepository(csvPath);
+        List<BestResult> loaded = repository.loadAll();
+
+        assertEquals(1, loaded.size());
+        assertEquals("LegacyPlayer", loaded.get(0).playerName());
+        assertEquals(170, loaded.get(0).money());
+        assertEquals(Difficulty.EASY, loaded.get(0).difficulty());
+    }
 }
