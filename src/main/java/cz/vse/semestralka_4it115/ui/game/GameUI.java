@@ -3,6 +3,7 @@ package cz.vse.semestralka_4it115.ui.game;
 import cz.vse.semestralka_4it115.exception.DeathException;
 import cz.vse.semestralka_4it115.exception.WinException;
 import cz.vse.semestralka_4it115.logic.space.Difficulty;
+import cz.vse.semestralka_4it115.score.BestResultsService;
 import cz.vse.semestralka_4it115.serializer.TxtHandler;
 import cz.vse.semestralka_4it115.ui.cmd.Command;
 import cz.vse.semestralka_4it115.ui.cmd.CommandParser;
@@ -49,6 +50,7 @@ public class GameUI {
      * File path for the introduction text resource.
      */
     private static final String INTRO_FILE = "resources\\intro.txt";
+    private static final BestResultsService BEST_RESULTS_SERVICE = BestResultsService.createDefault();
 
     //endregion
     //region Constructor
@@ -277,6 +279,7 @@ public class GameUI {
      * @param win true if the player won the game, false if the player died
      */
     public static void konec(Boolean win) {
+        saveCurrentResultToCsv();
         if (win) {
             System.out.println("Gratuluji " + GH.game.getPlayer().getName() + " k výhře! Zachránil jste království. \n");
         } else {
@@ -289,6 +292,18 @@ public class GameUI {
         } else {
             System.out.println("Ukončuji hru. Nashledanou!");
             System.exit(0);
+        }
+    }
+
+    private static void saveCurrentResultToCsv() {
+        try {
+            BEST_RESULTS_SERVICE.recordResult(
+                    GH.game.getPlayer().getName(),
+                    GH.game.getPlayer().getMoney(),
+                    GH.game.getDifficulty()
+            );
+        } catch (RuntimeException e) {
+            System.out.println("Nepodarilo se ulozit vysledek do CSV: " + e.getMessage());
         }
     }
 

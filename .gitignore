@@ -39,3 +39,6 @@ build/
 
 ### Links ###
 .lnk
+
+### Runtime data ###
+resources/best-results.csv

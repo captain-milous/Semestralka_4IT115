@@ -4,14 +4,17 @@ import cz.vse.semestralka_4it115.logic.entity.Person;
 import cz.vse.semestralka_4it115.logic.item.Item;
 import cz.vse.semestralka_4it115.logic.space.Difficulty;
 import cz.vse.semestralka_4it115.logic.space.Room;
+import cz.vse.semestralka_4it115.score.BestResultsService;
 import cz.vse.semestralka_4it115.serializer.TxtHandler;
 import cz.vse.semestralka_4it115.ui.game.FightUI;
 import cz.vse.semestralka_4it115.ui.game.GameHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Parent;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -46,6 +49,7 @@ public class MainController {
     private static final String ITEM_IMAGE_BASE_PATH = "/cz/vse/semestralka_4it115/main/img/items/";
     private static final String DEFAULT_ITEM_IMAGE = "Default.png";
     private final GuiCommandExecutor commandExecutor = new GuiCommandExecutor(this::showLargeMapWindow);
+    private final BestResultsService bestResultsService = BestResultsService.createDefault();
     private Trade trade;
     private final Set<Integer> visitedRoomIds = new HashSet<>();
     private final ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
@@ -329,6 +333,15 @@ public class MainController {
     }
 
     /**
+     * Opens table with stored best results.
+     *
+     * @param actionEvent menu/button action
+     */
+    public void openBestResults(ActionEvent actionEvent) {
+        showBestResultsWindow();
+    }
+
+    /**
      * Drops selected backpack item to current room.
      *
      * @param actionEvent button click event
@@ -493,6 +506,7 @@ public class MainController {
 
         if (!GameHandler.game.getPlayer().isAlive()) {
             gameOver = true;
+            saveCurrentResultToCsv();
             showEndGamePopup(false);
             appendErrorLog("Prohrál jsi. Hra skončila. Zvol New game nebo Restart.");
             return;
@@ -502,8 +516,18 @@ public class MainController {
                 && GameHandler.game.getCurrentRoom().getId() == 15
                 && GameHandler.game.searchInInventory("Pecet") != null) {
             gameOver = true;
+            saveCurrentResultToCsv();
             showEndGamePopup(true);
             appendGameLog("Vyhrál jsi! Hra skončila. Zvol New game nebo Restart.");
+        }
+    }
+
+    private void saveCurrentResultToCsv() {
+        Person player = GameHandler.game.getPlayer();
+        try {
+            bestResultsService.recordResult(player.getName(), player.getMoney(), GameHandler.game.getDifficulty());
+        } catch (RuntimeException e) {
+            appendErrorLog("Nepodarilo se ulozit vysledek do CSV: " + e.getMessage());
         }
     }
 
@@ -684,6 +708,28 @@ public class MainController {
         }
         stage.setScene(new Scene(root, 1050, 760));
         stage.showAndWait();
+    }
+
+    private void showBestResultsWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("best-results.fxml"));
+            Parent root = loader.load();
+            BestResultsController controller = loader.getController();
+            controller.setResults(bestResultsService.getBestResults());
+
+            Stage stage = new Stage();
+            stage.setTitle("Nejlepsi vysledky");
+            if (cmdInput != null && cmdInput.getScene() != null && cmdInput.getScene().getWindow() != null) {
+                stage.initOwner(cmdInput.getScene().getWindow());
+                stage.initModality(Modality.WINDOW_MODAL);
+            } else {
+                stage.initModality(Modality.APPLICATION_MODAL);
+            }
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (Exception e) {
+            appendErrorLog("Nepodarilo se otevrit vysledky: " + e.getMessage());
+        }
     }
 
     /**
