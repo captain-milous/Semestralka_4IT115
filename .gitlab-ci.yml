@@ -1,0 +1,31 @@
+image: eclipse-temurin:23-jdk
+
+stages:
+  - verify
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  MAVEN_CLI_OPTS: "-B -ntp"
+
+cache:
+  key:
+    files:
+      - pom.xml
+  paths:
+    - .m2/repository
+
+before_script:
+  - chmod +x mvnw
+
+verify:
+  stage: verify
+  script:
+    - ./mvnw $MAVEN_CLI_OPTS clean test
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - target/surefire-reports/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
