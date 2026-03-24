@@ -4,6 +4,13 @@ package cz.vse.semestralka_4it115.logic.item;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests weapon initialization and printable output.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
+ */
 class WeaponTest {
 
     @Test

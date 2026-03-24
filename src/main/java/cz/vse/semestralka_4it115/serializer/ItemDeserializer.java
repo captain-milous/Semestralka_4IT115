@@ -13,10 +13,23 @@ import cz.vse.semestralka_4it115.logic.item.Weapon;
 import java.lang.reflect.Type;
 
 /**
- * Deserializes JSON items into concrete item subclasses.
+ * Deserializes JSON item objects into concrete game item implementations.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class ItemDeserializer implements JsonDeserializer<Item> {
 
+    /**
+     * Converts one JSON item node into {@link Item}, {@link Food}, {@link Weapon}, or {@link Armor}.
+     *
+     * @param json JSON element representing an item
+     * @param typeOfT requested target type
+     * @param context Gson deserialization context
+     * @return concrete item instance based on present attributes
+     * @throws JsonParseException when JSON structure is invalid
+     */
     @Override
     public Item deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject obj = json.getAsJsonObject();

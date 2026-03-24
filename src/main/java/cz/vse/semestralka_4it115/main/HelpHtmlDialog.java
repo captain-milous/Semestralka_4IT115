@@ -10,7 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * Opens local HTML help in a dedicated window.
+ * Displays local HTML help content in a modal JavaFX window.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public final class HelpHtmlDialog {
     private static final Path HELP_HTML_PATH = Path.of("resources", "help.html");
@@ -18,6 +22,11 @@ public final class HelpHtmlDialog {
     private HelpHtmlDialog() {
     }
 
+    /**
+     * Opens help window with embedded WebView.
+     *
+     * @param owner owner window for modal dialog
+     */
     public static void show(Window owner) {
         Path absoluteHelpPath = HELP_HTML_PATH.toAbsolutePath();
         if (!Files.exists(absoluteHelpPath)) {

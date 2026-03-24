@@ -11,6 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests core game operations such as movement, inventory lookup, and room state.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
+ */
 class GameTest {
 
     private Game game;

@@ -12,6 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests money and inventory transfer constraints in trading logic.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
+ */
 class ShopUITest {
 
     @Test

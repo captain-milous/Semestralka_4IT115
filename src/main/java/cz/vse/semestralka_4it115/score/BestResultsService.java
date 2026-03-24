@@ -11,7 +11,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Orchestrates leaderboard updates and keeps only best money-based results.
+ * Provides leaderboard operations and keeps only the best money-based results.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class BestResultsService {
     private static final int DEFAULT_MAX_RESULTS = 10;
@@ -23,6 +27,12 @@ public class BestResultsService {
     private final BestResultCsvRepository repository;
     private final int maxResults;
 
+    /**
+     * Creates leaderboard service with storage backend and size limit.
+     *
+     * @param repository CSV repository
+     * @param maxResults maximum number of kept entries
+     */
     public BestResultsService(BestResultCsvRepository repository, int maxResults) {
         this.repository = Objects.requireNonNull(repository, "repository must not be null");
         if (maxResults < 1) {
@@ -31,6 +41,11 @@ public class BestResultsService {
         this.maxResults = maxResults;
     }
 
+    /**
+     * Creates default service using {@code resources/best-results.csv}.
+     *
+     * @return default leaderboard service
+     */
     public static BestResultsService createDefault() {
         return new BestResultsService(
                 new BestResultCsvRepository(Path.of("resources", "best-results.csv")),
@@ -38,6 +53,13 @@ public class BestResultsService {
         );
     }
 
+    /**
+     * Stores one game result and keeps only top entries by money and finish time.
+     *
+     * @param playerName player name
+     * @param money final money
+     * @param difficulty game difficulty
+     */
     public synchronized void recordResult(String playerName, int money, Difficulty difficulty) {
         try {
             List<BestResult> bestResults = repository.loadAll();
@@ -54,6 +76,11 @@ public class BestResultsService {
         }
     }
 
+    /**
+     * Returns current leaderboard sorted from best to worst result.
+     *
+     * @return leaderboard entries up to configured limit
+     */
     public synchronized List<BestResult> getBestResults() {
         try {
             List<BestResult> bestResults = repository.loadAll();

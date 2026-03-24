@@ -15,8 +15,8 @@ import java.lang.reflect.Type;
  * This serializer ensures that only relevant properties of a Room (id, name, description, lock status, exits, items, and other people) are included in the JSON output.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-03-30
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class RoomSerializer implements JsonSerializer<Room> {
     /**

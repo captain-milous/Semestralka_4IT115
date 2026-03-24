@@ -12,8 +12,8 @@ import java.util.Map;
  * Loads valid look actions from a serialized map and validates input before executing.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-04-03
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class LookCommand implements Command {
     private String action;
@@ -33,7 +33,7 @@ public class LookCommand implements Command {
     /**
      * Constructs a new LookCommand instance with action.
      *
-     * @param action
+     * @param action look action keyword entered by player
      */
     public LookCommand(String action) {
         this.action = action.toLowerCase();

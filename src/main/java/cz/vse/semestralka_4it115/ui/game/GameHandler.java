@@ -17,8 +17,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * and initializes the Game instance accordingly.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-04-03
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class GameHandler {
     public static Game game = new Game();

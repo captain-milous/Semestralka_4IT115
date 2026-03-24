@@ -17,6 +17,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Validates JSON map loading and concrete item deserialization.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
+ */
 class JsonHandlerTest {
 
     @Test

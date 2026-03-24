@@ -13,8 +13,8 @@ import java.util.List;
  * Methods are provided for managing these elements.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-03-15
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class Room {
     private int id;
@@ -331,6 +331,11 @@ public class Room {
         otherPeople.remove(otherPerson);
     }
 
+    /**
+     * Marks matching person in this room as dead and peaceful.
+     *
+     * @param person person instance used for name matching
+     */
     public void setPersonDead(Person person) {
         for (Person p : otherPeople) {
             if (p.getName().equals(person.getName())) {

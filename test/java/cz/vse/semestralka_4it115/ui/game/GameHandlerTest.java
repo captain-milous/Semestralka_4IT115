@@ -9,6 +9,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Verifies shared game instance access and game-state observer notifications.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
+ */
 class GameHandlerTest {
 
     @BeforeEach

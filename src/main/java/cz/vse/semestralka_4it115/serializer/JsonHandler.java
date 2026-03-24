@@ -15,8 +15,8 @@ import java.io.IOException;
  * It uses the Gson library for serialization and deserialization of Map objects, and registers a custom serializer for Room objects.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-03-30
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class JsonHandler {
     /**

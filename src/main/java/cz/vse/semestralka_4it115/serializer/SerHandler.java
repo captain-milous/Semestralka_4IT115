@@ -15,8 +15,8 @@ import java.util.Map;
  * Utilizes Java's ObjectOutputStream and ObjectInputStream for reading and writing object data.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-05-16
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class SerHandler {
 

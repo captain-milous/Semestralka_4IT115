@@ -8,6 +8,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Verifies text file loading and error handling in {@link TxtHandler}.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
+ */
 class TxtHandlerTest {
 
     @Test

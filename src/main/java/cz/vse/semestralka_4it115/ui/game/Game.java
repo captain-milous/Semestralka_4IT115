@@ -15,8 +15,8 @@ import java.util.List;
  * Methods allow moving between rooms, searching inventory, and resetting player state.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-04-03
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class Game {
     private Map map;

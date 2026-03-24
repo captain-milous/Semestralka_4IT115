@@ -12,9 +12,9 @@ import static cz.vse.semestralka_4it115.ui.game.GameUI.GH;
 /**
  * Manages dialogue interactions between the player and NPCs, loading and saving conversation data.
  *
- * @author Milos Tesar
- * @version BETA
- * @since 2025-06-05
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class TalkUI {
     private static final String CONVERSATIONS_FILE = "resources\\conversations.ser";

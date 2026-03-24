@@ -43,8 +43,11 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * JavaFX controller for the main game window.
- * Initializes a playable game session and routes command input from GUI to game logic.
+ * Controls the main JavaFX game window, user actions, and synchronization with game state.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class MainController {
     private static final String HELP_FILE = "resources\\help.txt";
@@ -63,6 +66,12 @@ public class MainController {
     private boolean gameOver = false;
     private boolean commandInProgress = false;
     private boolean endGamePopupShown = false;
+
+    /**
+     * Creates main window controller instance for JavaFX runtime.
+     */
+    public MainController() {
+    }
 
     @FXML
     private Label playerName;
@@ -180,8 +189,9 @@ public class MainController {
     }
 
     /**
-     * Gets the cmd input.
-     * @return
+     * Returns current command text entered in the command input field.
+     *
+     * @return raw command input text
      */
     public String getCmdInput() {
         return cmdInput.getText();
@@ -189,7 +199,8 @@ public class MainController {
 
     /**
      * Sets the player's name.
-     * @param playerName
+     *
+     * @param playerName displayed player name
      */
     public void setPlayerName(String playerName) {
         this.playerName.setText(playerName);
@@ -197,7 +208,8 @@ public class MainController {
 
     /**
      * Sets the player's health.
-     * @param playerHealth
+     *
+     * @param playerHealth displayed health value
      */
     public void setPlayerHealth(int playerHealth) {
         this.playerHealth.setText(String.valueOf(playerHealth));
@@ -205,7 +217,8 @@ public class MainController {
 
     /**
      * Sets the player's strength.
-     * @param playerStrength
+     *
+     * @param playerStrength displayed strength value
      */
     public void setPlayerStrength(int playerStrength) {
         this.playerStrength.setText(String.valueOf(playerStrength));
@@ -213,14 +226,16 @@ public class MainController {
 
     /**
      * Sets the player's defence.
-     * @param playerDefence
+     *
+     * @param playerDefence displayed defence value
      */
     public void setPlayerDefence(int playerDefence) {
         this.playerDefence.setText(String.valueOf(playerDefence));
     }
     /**
      * Sets the player's money.
-     * @param playerMoney
+     *
+     * @param playerMoney displayed money amount
      */
     public void setPlayerMoney(int playerMoney) {
         this.playerMoney.setText(String.valueOf(playerMoney));
@@ -228,7 +243,8 @@ public class MainController {
 
     /**
      * Sets the cmd input.
-     * @param input
+     *
+     * @param input text to place into command field
      */
     public void setCmdInput(String input) {
         this.cmdInput.setText(input);
@@ -236,7 +252,8 @@ public class MainController {
 
     /**
      * Sets the quest list.
-     * @param input
+     *
+     * @param input quest panel text
      */
     public void setQuestList(String input) {
         this.questList.setText(input);
@@ -244,7 +261,8 @@ public class MainController {
 
     /**
      * Sets the system log.
-     * @param input
+     *
+     * @param input first message to show in the log
      */
     public void setSystemLog(String input) {
         logEntries.clear();
@@ -255,7 +273,8 @@ public class MainController {
 
     /**
      * Sets the player's backpack.
-     * @param input
+     *
+     * @param input serialized backpack content text
      */
     public void setPlayerBackpack(String input) {
         if (input == null || input.isBlank()) {
@@ -272,15 +291,17 @@ public class MainController {
     }
     /**
      * Sets the map.
-     * @param input
+     *
+     * @param input image URL for the map preview
      */
     public void setMap(String input) {
         this.map.setImage(new Image(input));
     }
 
     /**
+     * Handles command submit action from GUI controls.
      *
-     * @param actionEvent
+     * @param actionEvent JavaFX action event
      */
     public void sendCmdInput(ActionEvent actionEvent) {
         String input = getCmdInput();
@@ -440,6 +461,11 @@ public class MainController {
         executeCommandAndLogOutput("batoh vezmi " + itemName.toLowerCase());
     }
 
+    /**
+     * Executes one command from GUI input, captures command output, and writes it into the visual log.
+     *
+     * @param input normalized command string
+     */
     private void executeCommandAndLogOutput(String input) {
         if (gameOver) {
             appendErrorLog("Hra již skončila. Zvol New game nebo Restart.");
@@ -492,6 +518,12 @@ public class MainController {
         }
     }
 
+    /**
+     * Determines whether input is a talk command to route output into dialogue styling.
+     *
+     * @param input raw command input
+     * @return {@code true} when command is {@code mluvit}
+     */
     private boolean isTalkCommand(String input) {
         if (input == null || input.isBlank()) {
             return false;
@@ -500,6 +532,11 @@ public class MainController {
         return normalizedInput.equals("mluvit") || normalizedInput.startsWith("mluvit ");
     }
 
+    /**
+     * Starts combat command on a background thread and forwards combat logs back to JavaFX thread.
+     *
+     * @param input attack command input
+     */
     private void executeAttackCommandAsync(String input) {
         String[] tokens = input.trim().toLowerCase().split("\\s+");
         if (tokens.length < 2) {
@@ -570,6 +607,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Saves current player score into CSV leaderboard storage.
+     */
     private void saveCurrentResultToCsv() {
         Person player = GameHandler.game.getPlayer();
         try {
@@ -579,6 +619,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Opens end-game dialog once and wires restart/exit actions.
+     *
+     * @param win {@code true} when game ended with victory
+     */
     private void showEndGamePopup(boolean win) {
         if (endGamePopupShown) {
             return;
@@ -780,6 +825,9 @@ public class MainController {
         stage.showAndWait();
     }
 
+    /**
+     * Opens modal window with saved best results table.
+     */
     private void showBestResultsWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("best-results.fxml"));
@@ -847,10 +895,20 @@ public class MainController {
         appendLog(message, LogType.DIALOG);
     }
 
+    /**
+     * Appends one combat line spoken by player.
+     *
+     * @param message combat message
+     */
     private void appendCombatPlayerLog(String message) {
         appendLog(message, LogType.COMBAT_PLAYER);
     }
 
+    /**
+     * Appends one combat line spoken by enemy.
+     *
+     * @param message combat message
+     */
     private void appendCombatEnemyLog(String message) {
         appendLog(message, LogType.COMBAT_ENEMY);
     }

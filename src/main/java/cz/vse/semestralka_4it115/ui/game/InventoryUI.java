@@ -10,7 +10,11 @@ import java.util.List;
 import static cz.vse.semestralka_4it115.ui.game.GameUI.GH;
 
 /**
- * Handles inventory actions for text and GUI commands.
+ * Implements inventory commands for listing, taking, dropping, inspecting, and using items.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class InventoryUI {
 

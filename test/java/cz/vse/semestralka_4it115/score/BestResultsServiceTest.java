@@ -13,6 +13,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Verifies leaderboard sorting, limiting, and CSV persistence behavior.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
+ */
 class BestResultsServiceTest {
 
     @TempDir

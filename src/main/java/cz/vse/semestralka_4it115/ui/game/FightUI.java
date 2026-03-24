@@ -13,7 +13,11 @@ import java.util.Random;
 import static cz.vse.semestralka_4it115.ui.game.GameUI.GH;
 
 /**
- * Handles turn-based combat and combat progress reporting.
+ * Provides turn-based combat flow for console and GUI battle interactions.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class FightUI {
     private static final int FIGHT_TURN_DELAY_MS = 180;
@@ -32,6 +36,9 @@ public class FightUI {
 
     /**
      * Starts fight in console mode.
+     *
+     * @param osoba enemy identifier entered by user
+     * @throws Exception when enemy cannot be found or combat cannot start
      */
     public static void start(String osoba) throws Exception {
         FightLogSink consoleSink = new FightLogSink() {

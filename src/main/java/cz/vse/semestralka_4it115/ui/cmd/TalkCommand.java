@@ -9,8 +9,8 @@ import cz.vse.semestralka_4it115.ui.game.TalkUI;
  * allowing the player to engage in conversations with characters in the room.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-04-03
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class TalkCommand implements Command {
     private String osoba;

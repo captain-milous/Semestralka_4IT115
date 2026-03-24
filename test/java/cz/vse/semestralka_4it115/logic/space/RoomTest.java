@@ -11,6 +11,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests room state changes, collections, and enemy handling behavior.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
+ */
 class RoomTest {
 
     private Room room;

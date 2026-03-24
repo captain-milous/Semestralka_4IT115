@@ -5,7 +5,11 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
- * Controller for end-game dialog.
+ * Handles the end-game dialog content and button actions.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class EndGameController {
     @FXML
@@ -17,6 +21,20 @@ public class EndGameController {
     private Runnable onRestart;
     private Runnable onExit;
 
+    /**
+     * Creates end-game dialog controller for JavaFX FXML loading.
+     */
+    public EndGameController() {
+    }
+
+    /**
+     * Initializes dialog labels and callbacks according to game result.
+     *
+     * @param stage dialog stage
+     * @param win whether the game ended with victory
+     * @param onRestart callback for restart button
+     * @param onExit callback for exit button
+     */
     public void init(Stage stage, boolean win, Runnable onRestart, Runnable onExit) {
         this.stage = stage;
         this.onRestart = onRestart;
@@ -30,6 +48,9 @@ public class EndGameController {
         }
     }
 
+    /**
+     * Closes dialog and triggers restart callback when available.
+     */
     @FXML
     private void onRestartClicked() {
         stage.close();
@@ -38,6 +59,9 @@ public class EndGameController {
         }
     }
 
+    /**
+     * Closes dialog and triggers exit callback when available.
+     */
     @FXML
     private void onExitClicked() {
         stage.close();

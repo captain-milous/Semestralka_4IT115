@@ -9,12 +9,22 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 /**
- * Displays difficulty-selection dialog from FXML and returns chosen value.
+ * Opens the difficulty selection dialog and returns selected game difficulty.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public final class DifficultyDialog {
     private DifficultyDialog() {
     }
 
+    /**
+     * Shows modal difficulty dialog.
+     *
+     * @param owner owner window for modal dialog
+     * @return selected difficulty or {@code null} when canceled/error occurs
+     */
     public static Difficulty requestDifficulty(Window owner) {
         try {
             FXMLLoader loader = new FXMLLoader(DifficultyDialog.class.getResource("difficulty-dialog.fxml"));

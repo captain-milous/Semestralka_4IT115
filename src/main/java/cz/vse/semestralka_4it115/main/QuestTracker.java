@@ -9,12 +9,23 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Builds quest panel text from current game state.
+ * Builds quest tracker text from current game progress and visited rooms.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public final class QuestTracker {
     private QuestTracker() {
     }
 
+    /**
+     * Creates formatted quest text and hides already completed objectives.
+     *
+     * @param game current game state
+     * @param visitedRoomIds ids of rooms visited during current run
+     * @return quest tracker text for GUI panel
+     */
     public static String buildQuestText(Game game, Set<Integer> visitedRoomIds) {
         Map<String, Boolean> objectives = new LinkedHashMap<>();
         objectives.put("- Jdi za Králem do trůnního sálu a seber \"Pečeť\"", isTaskOneDone(game));

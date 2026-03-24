@@ -9,8 +9,8 @@ import cz.vse.semestralka_4it115.ui.game.ShopUI;
  * the player to buy or sell items with a dealer in the current room.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-04-03
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class ShopCommand implements Command {
     private String osoba;

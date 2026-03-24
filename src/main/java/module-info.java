@@ -1,3 +1,6 @@
+/**
+ * Module definition for the semestral project application.
+ */
 module cz.vse.semestralka_4it115 {
     requires javafx.controls;
     requires javafx.fxml;

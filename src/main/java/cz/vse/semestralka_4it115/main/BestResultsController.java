@@ -14,7 +14,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * Controller for best-results table window.
+ * Renders leaderboard data in the best-results JavaFX table dialog.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class BestResultsController {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -31,6 +35,15 @@ public class BestResultsController {
     @FXML
     private TableColumn<BestResultRow, String> difficultyColumn;
 
+    /**
+     * Creates leaderboard dialog controller for JavaFX FXML loading.
+     */
+    public BestResultsController() {
+    }
+
+    /**
+     * Initializes table columns and binds backing observable list.
+     */
     @FXML
     private void initialize() {
         dateTimeColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().finishedAt()));
@@ -40,6 +53,11 @@ public class BestResultsController {
         resultsTable.setItems(rows);
     }
 
+    /**
+     * Populates table rows from stored game results.
+     *
+     * @param results leaderboard entries
+     */
     public void setResults(List<BestResult> results) {
         rows.clear();
         if (results == null) {
@@ -55,6 +73,9 @@ public class BestResultsController {
         }
     }
 
+    /**
+     * Closes the best-results dialog window.
+     */
     @FXML
     private void onClose() {
         Stage stage = (Stage) resultsTable.getScene().getWindow();
@@ -63,6 +84,12 @@ public class BestResultsController {
         }
     }
 
+    /**
+     * Converts domain difficulty value into localized UI label.
+     *
+     * @param difficulty game difficulty
+     * @return localized label shown in results table
+     */
     private String toLabel(Difficulty difficulty) {
         if (difficulty == Difficulty.HARD) {
             return "Tezka";

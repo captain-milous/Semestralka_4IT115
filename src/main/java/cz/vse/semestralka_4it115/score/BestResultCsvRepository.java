@@ -17,7 +17,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * CSV persistence for leaderboard entries.
+ * Persists leaderboard entries to CSV and loads them back as {@link BestResult} records.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class BestResultCsvRepository {
     private static final String HEADER = "date_time,player_name,money,difficulty";
@@ -25,10 +29,21 @@ public class BestResultCsvRepository {
 
     private final Path csvPath;
 
+    /**
+     * Creates repository using selected CSV file path.
+     *
+     * @param csvPath path to leaderboard CSV file
+     */
     public BestResultCsvRepository(Path csvPath) {
         this.csvPath = Objects.requireNonNull(csvPath, "csvPath must not be null");
     }
 
+    /**
+     * Loads all valid leaderboard entries from CSV.
+     *
+     * @return parsed result list, possibly empty
+     * @throws IOException when file cannot be read
+     */
     public synchronized List<BestResult> loadAll() throws IOException {
         List<BestResult> results = new ArrayList<>();
         if (!Files.exists(csvPath)) {
@@ -55,6 +70,12 @@ public class BestResultCsvRepository {
         return results;
     }
 
+    /**
+     * Rewrites CSV file with provided leaderboard entries.
+     *
+     * @param results entries to persist
+     * @throws IOException when file cannot be written
+     */
     public synchronized void saveAll(List<BestResult> results) throws IOException {
         Path parent = csvPath.getParent();
         if (parent != null) {

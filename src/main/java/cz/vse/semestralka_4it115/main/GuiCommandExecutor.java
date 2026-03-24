@@ -9,8 +9,11 @@ import cz.vse.semestralka_4it115.ui.game.LookUI;
 import javafx.application.Platform;
 
 /**
- * GUI-specific command executor independent of serialized command maps.
- * Keeps command behavior aligned with text mode while remaining reliable in JavaFX runtime.
+ * Executes GUI-entered commands and routes them to the same command logic as text mode.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class GuiCommandExecutor {
     private final Runnable showMapAction;

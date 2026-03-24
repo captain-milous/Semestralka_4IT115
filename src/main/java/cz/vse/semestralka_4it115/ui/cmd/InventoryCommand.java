@@ -10,8 +10,8 @@ import cz.vse.semestralka_4it115.ui.game.InventoryUI;
  * The command is constructed with an action (e.g., list, take) and an optional item name.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-04-03
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class InventoryCommand implements Command {
     //region Fields
@@ -22,7 +22,7 @@ public class InventoryCommand implements Command {
     /**
      * Constructs an InventoryCommand with the specified action.
      *
-     * @param action
+     * @param action inventory action keyword
      */
     public InventoryCommand(String action) {
         this.action = action;

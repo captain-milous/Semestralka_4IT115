@@ -14,7 +14,11 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Owns GUI trading flow and opens trade window from FXML.
+ * Coordinates GUI trading flow and opens the trade dialog from FXML.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class Trade {
     private final Supplier<Window> ownerSupplier;
@@ -22,6 +26,14 @@ public class Trade {
     private final Consumer<String> gameLog;
     private final Consumer<String> errorLog;
 
+    /**
+     * Creates trade flow coordinator for the main GUI.
+     *
+     * @param ownerSupplier supplier of owner window for modal dialog
+     * @param refreshViewAction callback refreshing main view after trade
+     * @param gameLog callback for regular game messages
+     * @param errorLog callback for error messages
+     */
     public Trade(
             Supplier<Window> ownerSupplier,
             Runnable refreshViewAction,
@@ -35,7 +47,7 @@ public class Trade {
     }
 
     /**
-     * Handles "nakup <osoba>" command in GUI mode.
+     * Handles {@code nakup <osoba>} command in GUI mode.
      *
      * @param input full command string
      * @return true when input was a trade command
@@ -61,6 +73,8 @@ public class Trade {
 
     /**
      * Opens the modal trade window for selected dealer.
+     *
+     * @param dealer selected dealer person
      */
     public void openForPerson(Person dealer) {
         if (dealer == null) {

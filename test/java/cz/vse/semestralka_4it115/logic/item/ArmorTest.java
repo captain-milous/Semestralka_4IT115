@@ -5,6 +5,13 @@ import cz.vse.semestralka_4it115.logic.item.Armor;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Verifies armor attributes and output formatting.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
+ */
 class ArmorTest {
 
     @Test

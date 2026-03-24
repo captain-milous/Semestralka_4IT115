@@ -6,12 +6,11 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * Immutable game result entry for leaderboard persistence.
+ * Represents one immutable leaderboard entry saved after a finished game.
  *
- * @param finishedAt end date-time of the run
- * @param playerName player name
- * @param money final player money
- * @param difficulty selected game difficulty
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public record BestResult(LocalDateTime finishedAt, String playerName, int money, Difficulty difficulty) {
     public BestResult {
@@ -25,6 +24,14 @@ public record BestResult(LocalDateTime finishedAt, String playerName, int money,
         }
     }
 
+    /**
+     * Creates a result record with current timestamp.
+     *
+     * @param playerName player name
+     * @param money final money
+     * @param difficulty game difficulty
+     * @return new result entry with current time
+     */
     public static BestResult now(String playerName, int money, Difficulty difficulty) {
         return new BestResult(LocalDateTime.now(), playerName, money, difficulty);
     }

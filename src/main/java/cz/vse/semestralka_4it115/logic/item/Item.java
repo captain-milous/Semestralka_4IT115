@@ -6,8 +6,8 @@ package cz.vse.semestralka_4it115.logic.item;
  * This class serves as the base class for all specific item types such as Armor, Food, and Weapon.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-03-28
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class Item {
     protected String name;

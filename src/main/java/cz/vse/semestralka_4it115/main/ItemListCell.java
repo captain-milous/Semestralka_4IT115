@@ -9,7 +9,11 @@ import javafx.scene.layout.HBox;
 import java.util.function.Function;
 
 /**
- * JavaFX cell renderer for item rows with icon and weight.
+ * Custom JavaFX list cell that renders one inventory item row with icon and weight.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class ItemListCell extends ListCell<ItemListEntry> {
     private final Function<String, Image> iconLoader;
@@ -18,6 +22,11 @@ public class ItemListCell extends ListCell<ItemListEntry> {
     private final Label weightLabel = new Label();
     private final HBox content = new HBox(8, icon, nameLabel, weightLabel);
 
+    /**
+     * Creates item cell renderer with icon loader callback.
+     *
+     * @param iconLoader callback resolving icon by item name
+     */
     public ItemListCell(Function<String, Image> iconLoader) {
         this.iconLoader = iconLoader;
         icon.setFitWidth(24);
@@ -26,6 +35,12 @@ public class ItemListCell extends ListCell<ItemListEntry> {
         weightLabel.setStyle("-fx-text-fill: #555;");
     }
 
+    /**
+     * Re-renders list row according to current item state and placeholder flag.
+     *
+     * @param item item row data
+     * @param empty whether current row is empty
+     */
     @Override
     protected void updateItem(ItemListEntry item, boolean empty) {
         super.updateItem(item, empty);

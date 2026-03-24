@@ -7,7 +7,11 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 /**
- * Controller for difficulty dialog.
+ * Maps difficulty dialog selections to domain difficulty values.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class DifficultyController {
     @FXML
@@ -17,20 +21,42 @@ public class DifficultyController {
     private Difficulty result;
     private boolean cancelled = true;
 
+    /**
+     * Creates difficulty dialog controller for JavaFX FXML loading.
+     */
+    public DifficultyController() {
+    }
+
+    /**
+     * Initializes difficulty combo-box content and default selection.
+     */
     @FXML
     private void initialize() {
         difficultyCombo.setItems(FXCollections.observableArrayList("Jednoducha", "Normalni", "Tezka"));
         difficultyCombo.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Sets owning stage used for closing dialog actions.
+     *
+     * @param stage dialog stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Returns selected difficulty after confirmation.
+     *
+     * @return selected difficulty or {@code null} when canceled
+     */
     public Difficulty getResult() {
         return cancelled ? null : result;
     }
 
+    /**
+     * Confirms selected difficulty and closes dialog.
+     */
     @FXML
     private void onConfirm() {
         String selected = difficultyCombo.getSelectionModel().getSelectedItem();
@@ -45,6 +71,9 @@ public class DifficultyController {
         stage.close();
     }
 
+    /**
+     * Cancels difficulty selection dialog.
+     */
     @FXML
     private void onCancel() {
         stage.close();

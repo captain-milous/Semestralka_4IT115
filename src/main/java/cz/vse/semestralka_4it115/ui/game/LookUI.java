@@ -6,8 +6,8 @@ import static cz.vse.semestralka_4it115.ui.game.GameUI.GH;
  * Handles look commands to display information about the current room, such as exits, items, or people present.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-04-03
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class LookUI {
     /**

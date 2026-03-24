@@ -9,11 +9,18 @@ import java.util.List;
 import static cz.vse.semestralka_4it115.ui.game.GameUI.GH;
 
 /**
- * Manages trading between player and peaceful NPCs.
+ * Handles buying and selling items between the player and peaceful NPC traders.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class ShopUI {
     /**
      * Starts console trading loop with selected dealer.
+     *
+     * @param osoba dealer identifier entered by user
+     * @throws Exception when dealer or trade input is invalid
      */
     public static void start(String osoba) throws Exception {
         List<Person> otherPeople = GH.game.getCurrentRoom().getOtherPeople();

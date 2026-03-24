@@ -6,8 +6,8 @@ package cz.vse.semestralka_4it115.logic.item;
  * Food has a healing value indicating how much health it restores.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-03-28
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class Food extends Item {
     private double heal;

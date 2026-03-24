@@ -16,7 +16,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Controller for trade dialog loaded from trade.fxml.
+ * Controls the trade dialog UI and executes buy/sell actions between player and dealer.
+ *
+ * @author Miloš Tesař
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class TradeController {
     @FXML
@@ -38,12 +42,30 @@ public class TradeController {
     private Consumer<String> gameLog;
     private Consumer<String> errorLog;
 
+    /**
+     * Creates trade dialog controller used by JavaFX FXML loader.
+     */
+    public TradeController() {
+    }
+
+    /**
+     * Configures list cell renderers for both trade item lists.
+     */
     @FXML
     private void initialize() {
         playerItemsList.setCellFactory(list -> new ItemCell());
         dealerItemsList.setCellFactory(list -> new ItemCell());
     }
 
+    /**
+     * Initializes controller with current participants and log callbacks.
+     *
+     * @param player active player
+     * @param dealer selected dealer
+     * @param refreshViewAction callback to refresh main window
+     * @param gameLog callback for normal game output
+     * @param errorLog callback for error output
+     */
     public void init(
             Person player,
             Person dealer,
@@ -61,6 +83,9 @@ public class TradeController {
         refreshTradeWindowData();
     }
 
+    /**
+     * Handles selling the currently selected player item to dealer.
+     */
     @FXML
     private void onSellClicked() {
         Item selected = playerItemsList.getSelectionModel().getSelectedItem();
@@ -78,6 +103,9 @@ public class TradeController {
         }
     }
 
+    /**
+     * Handles buying the currently selected dealer item for player.
+     */
     @FXML
     private void onBuyClicked() {
         Item selected = dealerItemsList.getSelectionModel().getSelectedItem();
@@ -95,12 +123,18 @@ public class TradeController {
         }
     }
 
+    /**
+     * Closes the trade dialog window.
+     */
     @FXML
     private void onCloseClicked() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Refreshes money labels and both item lists after trade operation.
+     */
     private void refreshTradeWindowData() {
         playerMoneyLabel.setText("Peníze: " + player.getMoney() + " Kč");
         dealerMoneyLabel.setText("Peníze: " + dealer.getMoney() + " Kč");
@@ -108,6 +142,12 @@ public class TradeController {
         dealerItemsList.setItems(mapTradeItems(dealer.getInventory().getItems()));
     }
 
+    /**
+     * Converts item collection into observable list for JavaFX bindings.
+     *
+     * @param items source items
+     * @return observable list used by list views
+     */
     private ObservableList<Item> mapTradeItems(List<Item> items) {
         ObservableList<Item> entries = FXCollections.observableArrayList();
         entries.addAll(items);
@@ -115,6 +155,12 @@ public class TradeController {
     }
 
     private static class ItemCell extends ListCell<Item> {
+        /**
+         * Renders one row in trade list with name, price, and weight.
+         *
+         * @param item row item
+         * @param empty whether row is empty
+         */
         @Override
         protected void updateItem(Item item, boolean empty) {
             super.updateItem(item, empty);

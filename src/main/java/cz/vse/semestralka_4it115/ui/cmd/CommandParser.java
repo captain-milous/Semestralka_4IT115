@@ -10,8 +10,8 @@ import java.util.Map;
  * and returning corresponding Command objects. Handles unknown commands by prompting help.
  *
  * @author Miloš Tesař
- * @version BETA
- * @since 2025-04-03
+ * @version 1.0.0
+ * @since 2026-03-23
  */
 public class CommandParser {
     private Map<String, CMD> commands = SerHandler.loadCommandsMap("resources\\commands.ser");
