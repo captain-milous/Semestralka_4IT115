@@ -294,11 +294,7 @@
           "money": 999,
           "inventory": {
             "items": [
-              {
-                "name": "Pečeť",
-                "value": 1000,
-                "weight": 0.1
-              }
+
             ],
             "maxWeight": 20.0,
             "currentWeight": 0.1
@@ -391,11 +387,7 @@
           "money": 120,
           "inventory": {
             "items": [
-              {
-                "name": "Klíč",
-                "value": 100,
-                "weight": 0.1
-              }
+
             ],
             "maxWeight": 20.0,
             "currentWeight": 0.1

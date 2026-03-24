@@ -1,548 +1,577 @@
 {
-  "seed": "M1",
-  "difficulty": "EASY",
-  "currentRoom": {
-    "id": 1,
-    "name": "Pokoj v hospodě",
-    "description": "Skromný, ale útulný pokoj, ve kterém si strávil posledních pár nocí.",
-    "isLocked": false,
-    "exits": [
-      2
-    ],
-    "items": [],
-    "otherPeople": [
-      {
-        "name": "Strážný",
-        "strength": 10.0,
-        "defence": 10.0,
-        "maxHealth": 100.0,
-        "health": 100.0,
-        "isAlive": true,
-        "isPeaceful": true,
-        "money": 10,
-        "inventory": {
-          "items": [
-            {
-              "damage": 8.0,
-              "name": "Meč",
-              "value": 18,
-              "weight": 3.1
-            },
-            {
-              "defense": 14.0,
-              "name": "Brnění",
-              "value": 8,
-              "weight": 10.0
-            }
-          ],
-          "maxWeight": 20.0,
-          "currentWeight": 16.2
-        }
-      }
-    ]
-  },
-  "layout": [
-    {
-      "id": 1,
-      "name": "Pokoj v hospodě",
-      "description": "Skromný, ale útulný pokoj, ve kterém si strávil posledních pár nocí.",
-      "isLocked": false,
-      "exits": [
-        2
-      ],
-      "items": [],
-      "otherPeople": [
-        {
-          "name": "Strážný",
-          "strength": 10.0,
-          "defence": 10.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": true,
-          "money": 10,
-          "inventory": {
-            "items": [
-              {
-                "damage": 8.0,
-                "name": "Meč",
-                "value": 18,
-                "weight": 3.1
-              },
-              {
-                "defense": 14.0,
-                "name": "Brnění",
-                "value": 8,
-                "weight": 10.0
-              }
-            ],
-            "maxWeight": 20.0,
-            "currentWeight": 16.2
-          }
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "name": "Hospoda",
-      "description": "Rušné místo, kde se scházejí cestující i místní, aby se občerstvili, sdíleli příběhy a navázali kontakty",
-      "isLocked": false,
-      "exits": [
-        1,
-        6
-      ],
-      "items": [],
-      "otherPeople": [
-        {
-          "name": "Hospodsky",
-          "strength": 10.0,
-          "defence": 10.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": true,
-          "money": 25,
-          "inventory": {
-            "items": [
-              {
-                "heal": 1.0,
-                "name": "Pivo",
-                "value": 1,
-                "weight": 0.1
-              },
-              {
-                "heal": 1.0,
-                "name": "Chleba",
-                "value": 1,
-                "weight": 0.1
-              },
-              {
-                "heal": 1.0,
-                "name": "Víno",
-                "value": 1,
-                "weight": 0.1
-              }
-            ],
-            "maxWeight": 20.0,
-            "currentWeight": 0.7000000000000001
-          }
-        },
-        {
-          "name": "Pocestny",
-          "strength": 10.0,
-          "defence": 10.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": true,
-          "money": 0,
-          "inventory": {
-            "items": [
-              {
-                "name": "Mapa",
-                "value": 10,
-                "weight": 0.1
-              },
-              {
-                "name": "Hrací kostka",
-                "value": 1,
-                "weight": 0.1
-              }
-            ],
-            "maxWeight": 20.0,
-            "currentWeight": 0.30000000000000004
-          }
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "name": "Zbrojnice",
-      "description": "Místnost plná zbraní a brnění, svědectví o dávných bitvách a hrdinských činech obránců hradu.",
-      "isLocked": false,
-      "exits": [
-        6
-      ],
-      "items": [],
-      "otherPeople": [
-        {
-          "name": "Kovář",
-          "strength": 10.0,
-          "defence": 10.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": true,
-          "money": 15,
-          "inventory": {
-            "items": [
-              {
-                "damage": 15.0,
-                "name": "Meč",
-                "value": 7,
-                "weight": 3.0
-              },
-              {
-                "damage": 18.0,
-                "name": "Sekera",
-                "value": 9,
-                "weight": 3.5
-              },
-              {
-                "defense": 15.0,
-                "name": "Štít",
-                "value": 8,
-                "weight": 2.0
-              },
-              {
-                "defense": 8.0,
-                "name": "Helma",
-                "value": 6,
-                "weight": 1.5
-              }
-            ],
-            "maxWeight": 100.0,
-            "currentWeight": 43.5
-          }
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "name": "Brána",
-      "description": "Prostor, kde se shromažďovali strážci, bdící a připravení bránit hrad před nepřáteli.",
-      "isLocked": false,
-      "exits": [
-        6
-      ],
-      "items": [],
-      "otherPeople": [
-        {
-          "name": "Strážný",
-          "strength": 10.0,
-          "defence": 10.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": true,
-          "money": 25,
-          "inventory": {
-            "items": [
-              {
-                "damage": 8.0,
-                "name": "Meč",
-                "value": 18,
-                "weight": 3.1
-              },
-              {
-                "defense": 14.0,
-                "name": "Brnění",
-                "value": 8,
-                "weight": 10.0
-              }
-            ],
-            "maxWeight": 20.0,
-            "currentWeight": 16.2
-          }
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "name": "Zahrada",
-      "description": "Krásně udržovaná zahrada na hradním nádvoří, poskytující krátký oddech a klid před nebezpečím.",
-      "isLocked": false,
-      "exits": [
-        7,
-        10
-      ],
-      "items": [],
-      "otherPeople": []
-    },
-    {
-      "id": 6,
-      "name": "Nádvoří",
-      "description": "Místo uvnitř hradeb, kde se schází lidé. (Propojení mezi nádvořními budovami a hradem)",
-      "isLocked": false,
-      "exits": [
-        2,
-        3,
-        4,
-        7
-      ],
-      "items": [
-        {
-          "name": "Povoz",
-          "value": 100,
-          "weight": 100.0
-        }
-      ],
-      "otherPeople": []
-    },
-    {
-      "id": 7,
-      "name": "Hradní koridor",
-      "description": "Rozlehlý chodební systém spojující všechny důležité části hradu, lemovaný historickými portréty.",
-      "isLocked": false,
-      "exits": [
-        5,
-        8,
-        9
-      ],
-      "items": [
-        {
-          "name": "Skříň",
-          "value": 10,
-          "weight": 40.0
-        }
-      ],
-      "otherPeople": []
-    },
-    {
-      "id": 8,
-      "name": "Trůnní sál",
-      "description": "Velkolepý sál s majestátním trůnem, kde se konaly královské audience a ceremoniály.",
-      "isLocked": false,
-      "exits": [
-        7
-      ],
-      "items": [
-        {
-          "name": "Pečeť",
-          "value": 0,
-          "weight": 0.1
-        }
-      ],
-      "otherPeople": [
-        {
-          "name": "Král",
-          "strength": 100.0,
-          "defence": 100.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": true,
-          "money": 999999,
-          "inventory": {
-            "items": [
-              {
-                "name": "Pečeť",
-                "value": 1000,
-                "weight": 0.1
-              }
-            ],
-            "maxWeight": 20.0,
-            "currentWeight": 0.1
-          }
-        },
-        {
-          "name": "Strážný",
-          "strength": 35.0,
-          "defence": 20.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": true,
-          "money": 150,
-          "inventory": {
-            "items": [
-              {
-                "damage": 8.0,
-                "name": "Meč",
-                "value": 18,
-                "weight": 3.1
-              },
-              {
-                "defense": 14.0,
-                "name": "Brnění",
-                "value": 8,
-                "weight": 10.0
-              }
-            ],
-            "maxWeight": 20.0,
-            "currentWeight": 16.2
-          }
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "name": "Velká jídelna",
-      "description": "Prostorná jídelna s dlouhým stolem a bohatou výzdobou, kde se setkávali rytíři a významní hosté.",
-      "isLocked": false,
-      "exits": [
-        7
-      ],
-      "items": [
-        {
-          "heal": 1.0,
-          "name": "Pivo",
-          "value": 1,
-          "weight": 1.0
-        },
-        {
-          "heal": 1.0,
-          "name": "Pivo",
-          "value": 1,
-          "weight": 1.0
-        },
-        {
-          "name": "Klíč",
-          "value": 1,
-          "weight": 0.1
-        }
-      ],
-      "otherPeople": [
-        {
-          "name": "Radce",
-          "strength": 1.0,
-          "defence": 1.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": true,
-          "money": 25,
-          "inventory": {
-            "items": [],
-            "maxWeight": 20.0,
-            "currentWeight": 0.0
-          }
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "name": "Tajná chodba",
-      "description": "Skrytý průchod mezi hradem a starou věží, na který už dávno všichni zapomněli",
-      "isLocked": true,
-      "exits": [
-        5,
-        11
-      ],
-      "items": [],
-      "otherPeople": []
-    },
-    {
-      "id": 11,
-      "name": "Stará věž",
-      "description": "Rozpadlá věž, která se už léta nepoužívá a mnoho lidí na ni zapomnělo.",
-      "isLocked": false,
-      "exits": [
-        10,
-        12
-      ],
-      "items": [],
-      "otherPeople": []
-    },
-    {
-      "id": 12,
-      "name": "Cesta v lese",
-      "description": "Úzká a klikatá stezka vedoucí temnými lesy, plná nečekaných setkání a nástrah.",
-      "isLocked": false,
-      "exits": [
-        11,
-        13
-      ],
-      "items": [],
-      "otherPeople": [
-        {
-          "name": "Patrik",
-          "strength": 15.0,
-          "defence": 15.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": false,
-          "money": 0,
-          "inventory": {
-            "items": [],
-            "maxWeight": 20.0,
-            "currentWeight": 0.0
-          }
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "name": "Rozcestí v lese",
-      "description": "Klíčové místo, kde se cesty rozvětvují, symbolizující volbu mezi osudem a nebezpečím.",
-      "isLocked": false,
-      "exits": [
-        12,
-        14,
-        15
-      ],
-      "items": [],
-      "otherPeople": []
-    },
-    {
-      "id": 14,
-      "name": "Lesní mýtina",
-      "description": "Otevřená plocha uprostřed lesa, kde se cesty protínají a hrdina může narazit na pomocníky či protivníky.",
-      "isLocked": false,
-      "exits": [
-        13
-      ],
-      "items": [],
-      "otherPeople": [
-        {
-          "name": "Samuel",
-          "strength": 15.0,
-          "defence": 15.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": false,
-          "money": 0,
-          "inventory": {
-            "items": [],
-            "maxWeight": 20.0,
-            "currentWeight": 0.0
-          }
-        },
-        {
-          "name": "Stanislav",
-          "strength": 15.0,
-          "defence": 15.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": false,
-          "money": 0,
-          "inventory": {
-            "items": [],
-            "maxWeight": 20.0,
-            "currentWeight": 0.0
-          }
-        }
-      ]
-    },
-    {
-      "id": 15,
-      "name": "Brány druhého hradu",
-      "description": "Imponující vstup do spojeneckého hradu, kam musí posel doručit královu zprávu a získat pomoc.",
-      "isLocked": false,
-      "exits": [
-        13
-      ],
-      "items": [],
-      "otherPeople": [
-        {
-          "name": "Strážný",
-          "strength": 10.0,
-          "defence": 10.0,
-          "maxHealth": 100.0,
-          "health": 100.0,
-          "isAlive": true,
-          "isPeaceful": true,
-          "money": 25,
-          "inventory": {
-            "items": [],
-            "maxWeight": 20.0,
-            "currentWeight": 0.0
-          }
-        }
-      ]
-    }
-  ]
+    "seed":  "M1",
+    "difficulty":  "EASY",
+    "currentRoom":  {
+                        "id":  1,
+                        "name":  "Pokoj v hospodě",
+                        "description":  "Skromný, ale útulný pokoj, ve kterém si strávil posledních pár nocí.",
+                        "isLocked":  false,
+                        "exits":  [
+                                      2
+                                  ],
+                        "items":  [
+
+                                  ],
+                        "otherPeople":  [
+                                            {
+                                                "name":  "Strážný",
+                                                "strength":  10.0,
+                                                "defence":  10.0,
+                                                "maxHealth":  100.0,
+                                                "health":  100.0,
+                                                "isAlive":  true,
+                                                "isPeaceful":  true,
+                                                "money":  10,
+                                                "inventory":  {
+                                                                  "items":  [
+                                                                                {
+                                                                                    "damage":  8.0,
+                                                                                    "name":  "Meč",
+                                                                                    "value":  18,
+                                                                                    "weight":  3.1
+                                                                                },
+                                                                                {
+                                                                                    "defense":  14.0,
+                                                                                    "name":  "Brnění",
+                                                                                    "value":  8,
+                                                                                    "weight":  10.0
+                                                                                }
+                                                                            ],
+                                                                  "maxWeight":  20.0,
+                                                                  "currentWeight":  16.2
+                                                              }
+                                            }
+                                        ]
+                    },
+    "layout":  [
+                   {
+                       "id":  1,
+                       "name":  "Pokoj v hospodě",
+                       "description":  "Skromný, ale útulný pokoj, ve kterém si strávil posledních pár nocí.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     2
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+                                           {
+                                               "name":  "Strážný",
+                                               "strength":  10.0,
+                                               "defence":  10.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  true,
+                                               "money":  10,
+                                               "inventory":  {
+                                                                 "items":  [
+                                                                               {
+                                                                                   "damage":  8.0,
+                                                                                   "name":  "Meč",
+                                                                                   "value":  18,
+                                                                                   "weight":  3.1
+                                                                               },
+                                                                               {
+                                                                                   "defense":  14.0,
+                                                                                   "name":  "Brnění",
+                                                                                   "value":  8,
+                                                                                   "weight":  10.0
+                                                                               }
+                                                                           ],
+                                                                 "maxWeight":  20.0,
+                                                                 "currentWeight":  16.2
+                                                             }
+                                           }
+                                       ]
+                   },
+                   {
+                       "id":  2,
+                       "name":  "Hospoda",
+                       "description":  "Rušné místo, kde se scházejí cestující i místní, aby se občerstvili, sdíleli příběhy a navázali kontakty",
+                       "isLocked":  false,
+                       "exits":  [
+                                     1,
+                                     6
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+                                           {
+                                               "name":  "Hospodsky",
+                                               "strength":  10.0,
+                                               "defence":  10.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  true,
+                                               "money":  25,
+                                               "inventory":  {
+                                                                 "items":  [
+                                                                               {
+                                                                                   "heal":  1.0,
+                                                                                   "name":  "Pivo",
+                                                                                   "value":  1,
+                                                                                   "weight":  0.1
+                                                                               },
+                                                                               {
+                                                                                   "heal":  1.0,
+                                                                                   "name":  "Chleba",
+                                                                                   "value":  1,
+                                                                                   "weight":  0.1
+                                                                               },
+                                                                               {
+                                                                                   "heal":  1.0,
+                                                                                   "name":  "Víno",
+                                                                                   "value":  1,
+                                                                                   "weight":  0.1
+                                                                               }
+                                                                           ],
+                                                                 "maxWeight":  20.0,
+                                                                 "currentWeight":  0.7000000000000001
+                                                             }
+                                           },
+                                           {
+                                               "name":  "Pocestny",
+                                               "strength":  10.0,
+                                               "defence":  10.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  true,
+                                               "money":  0,
+                                               "inventory":  {
+                                                                 "items":  [
+                                                                               {
+                                                                                   "name":  "Mapa",
+                                                                                   "value":  10,
+                                                                                   "weight":  0.1
+                                                                               },
+                                                                               {
+                                                                                   "name":  "Hrací kostka",
+                                                                                   "value":  1,
+                                                                                   "weight":  0.1
+                                                                               }
+                                                                           ],
+                                                                 "maxWeight":  20.0,
+                                                                 "currentWeight":  0.30000000000000004
+                                                             }
+                                           }
+                                       ]
+                   },
+                   {
+                       "id":  3,
+                       "name":  "Zbrojnice",
+                       "description":  "Místnost plná zbraní a brnění, svědectví o dávných bitvách a hrdinských činech obránců hradu.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     6
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+                                           {
+                                               "name":  "Kovář",
+                                               "strength":  10.0,
+                                               "defence":  10.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  true,
+                                               "money":  15,
+                                               "inventory":  {
+                                                                 "items":  [
+                                                                               {
+                                                                                   "damage":  15.0,
+                                                                                   "name":  "Meč",
+                                                                                   "value":  7,
+                                                                                   "weight":  3.0
+                                                                               },
+                                                                               {
+                                                                                   "damage":  18.0,
+                                                                                   "name":  "Sekera",
+                                                                                   "value":  9,
+                                                                                   "weight":  3.5
+                                                                               },
+                                                                               {
+                                                                                   "defense":  15.0,
+                                                                                   "name":  "Štít",
+                                                                                   "value":  8,
+                                                                                   "weight":  2.0
+                                                                               },
+                                                                               {
+                                                                                   "defense":  8.0,
+                                                                                   "name":  "Helma",
+                                                                                   "value":  6,
+                                                                                   "weight":  1.5
+                                                                               }
+                                                                           ],
+                                                                 "maxWeight":  100.0,
+                                                                 "currentWeight":  43.5
+                                                             }
+                                           }
+                                       ]
+                   },
+                   {
+                       "id":  4,
+                       "name":  "Brána",
+                       "description":  "Prostor, kde se shromažďovali strážci, bdící a připravení bránit hrad před nepřáteli.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     6
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+                                           {
+                                               "name":  "Strážný",
+                                               "strength":  10.0,
+                                               "defence":  10.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  true,
+                                               "money":  25,
+                                               "inventory":  {
+                                                                 "items":  [
+                                                                               {
+                                                                                   "damage":  8.0,
+                                                                                   "name":  "Meč",
+                                                                                   "value":  18,
+                                                                                   "weight":  3.1
+                                                                               },
+                                                                               {
+                                                                                   "defense":  14.0,
+                                                                                   "name":  "Brnění",
+                                                                                   "value":  8,
+                                                                                   "weight":  10.0
+                                                                               }
+                                                                           ],
+                                                                 "maxWeight":  20.0,
+                                                                 "currentWeight":  16.2
+                                                             }
+                                           }
+                                       ]
+                   },
+                   {
+                       "id":  5,
+                       "name":  "Zahrada",
+                       "description":  "Krásně udržovaná zahrada na hradním nádvoří, poskytující krátký oddech a klid před nebezpečím.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     7,
+                                     10
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+
+                                       ]
+                   },
+                   {
+                       "id":  6,
+                       "name":  "Nádvoří",
+                       "description":  "Místo uvnitř hradeb, kde se schází lidé. (Propojení mezi nádvořními budovami a hradem)",
+                       "isLocked":  false,
+                       "exits":  [
+                                     2,
+                                     3,
+                                     4,
+                                     7
+                                 ],
+                       "items":  [
+                                     {
+                                         "name":  "Povoz",
+                                         "value":  100,
+                                         "weight":  100.0
+                                     }
+                                 ],
+                       "otherPeople":  [
+
+                                       ]
+                   },
+                   {
+                       "id":  7,
+                       "name":  "Hradní koridor",
+                       "description":  "Rozlehlý chodební systém spojující všechny důležité části hradu, lemovaný historickými portréty.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     6,
+                                     8,
+                                     9,
+                                     5
+                                 ],
+                       "items":  [
+                                     {
+                                         "name":  "Skříň",
+                                         "value":  10,
+                                         "weight":  40.0
+                                     }
+                                 ],
+                       "otherPeople":  [
+
+                                       ]
+                   },
+                   {
+                       "id":  8,
+                       "name":  "Trůnní sál",
+                       "description":  "Velkolepý sál s majestátním trůnem, kde se konaly královské audience a ceremoniály.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     7
+                                 ],
+                       "items":  [
+                                     {
+                                         "name":  "Pečeť",
+                                         "value":  0,
+                                         "weight":  0.1
+                                     }
+                                 ],
+                       "otherPeople":  [
+                                           {
+                                               "name":  "Král",
+                                               "strength":  100.0,
+                                               "defence":  100.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  true,
+                                               "money":  999999
+                                           },
+                                           {
+                                               "name":  "Strážný",
+                                               "strength":  35.0,
+                                               "defence":  20.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  true,
+                                               "money":  150,
+                                               "inventory":  {
+                                                                 "items":  [
+                                                                               {
+                                                                                   "damage":  8.0,
+                                                                                   "name":  "Meč",
+                                                                                   "value":  18,
+                                                                                   "weight":  3.1
+                                                                               },
+                                                                               {
+                                                                                   "defense":  14.0,
+                                                                                   "name":  "Brnění",
+                                                                                   "value":  8,
+                                                                                   "weight":  10.0
+                                                                               }
+                                                                           ],
+                                                                 "maxWeight":  20.0,
+                                                                 "currentWeight":  16.2
+                                                             }
+                                           }
+                                       ]
+                   },
+                   {
+                       "id":  9,
+                       "name":  "Velká jídelna",
+                       "description":  "Prostorná jídelna s dlouhým stolem a bohatou výzdobou, kde se setkávali rytíři a významní hosté.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     7
+                                 ],
+                       "items":  [
+                                     {
+                                         "heal":  1.0,
+                                         "name":  "Pivo",
+                                         "value":  1,
+                                         "weight":  1.0
+                                     },
+                                     {
+                                         "heal":  1.0,
+                                         "name":  "Pivo",
+                                         "value":  1,
+                                         "weight":  1.0
+                                     },
+                                     {
+                                         "name":  "Klíč",
+                                         "value":  1,
+                                         "weight":  0.1
+                                     }
+                                 ],
+                       "otherPeople":  [
+                                           {
+                                               "name":  "Radce",
+                                               "strength":  1.0,
+                                               "defence":  1.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  true,
+                                               "money":  25
+                                           }
+                                       ]
+                   },
+                   {
+                       "id":  10,
+                       "name":  "Tajná chodba",
+                       "description":  "Skrytý průchod mezi hradem a starou věží, na který už dávno všichni zapomněli",
+                       "isLocked":  true,
+                       "exits":  [
+                                     5,
+                                     11
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+
+                                       ]
+                   },
+                   {
+                       "id":  11,
+                       "name":  "Stará věž",
+                       "description":  "Rozpadlá věž, která se už léta nepoužívá a mnoho lidí na ni zapomnělo.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     10,
+                                     12
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+
+                                       ]
+                   },
+                   {
+                       "id":  12,
+                       "name":  "Cesta v lese",
+                       "description":  "Úzká a klikatá stezka vedoucí temnými lesy, plná nečekaných setkání a nástrah.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     11,
+                                     13
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+                                           {
+                                               "name":  "Patrik",
+                                               "strength":  15.0,
+                                               "defence":  15.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  false,
+                                               "money":  0,
+                                               "inventory":  {
+                                                                 "items":  [
+
+                                                                           ],
+                                                                 "maxWeight":  20.0,
+                                                                 "currentWeight":  0.0
+                                                             }
+                                           }
+                                       ]
+                   },
+                   {
+                       "id":  13,
+                       "name":  "Rozcestí v lese",
+                       "description":  "Klíčové místo, kde se cesty rozvětvují, symbolizující volbu mezi osudem a nebezpečím.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     12,
+                                     14,
+                                     15
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+
+                                       ]
+                   },
+                   {
+                       "id":  14,
+                       "name":  "Lesní mýtina",
+                       "description":  "Otevřená plocha uprostřed lesa, kde se cesty protínají a hrdina může narazit na pomocníky či protivníky.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     13
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+                                           {
+                                               "name":  "Samuel",
+                                               "strength":  15.0,
+                                               "defence":  15.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  false,
+                                               "money":  0,
+                                               "inventory":  {
+                                                                 "items":  [
+
+                                                                           ],
+                                                                 "maxWeight":  20.0,
+                                                                 "currentWeight":  0.0
+                                                             }
+                                           },
+                                           {
+                                               "name":  "Stanislav",
+                                               "strength":  15.0,
+                                               "defence":  15.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  false,
+                                               "money":  0,
+                                               "inventory":  {
+                                                                 "items":  [
+
+                                                                           ],
+                                                                 "maxWeight":  20.0,
+                                                                 "currentWeight":  0.0
+                                                             }
+                                           }
+                                       ]
+                   },
+                   {
+                       "id":  15,
+                       "name":  "Brány druhého hradu",
+                       "description":  "Imponující vstup do spojeneckého hradu, kam musí posel doručit královu zprávu a získat pomoc.",
+                       "isLocked":  false,
+                       "exits":  [
+                                     13
+                                 ],
+                       "items":  [
+
+                                 ],
+                       "otherPeople":  [
+                                           {
+                                               "name":  "Strážný",
+                                               "strength":  10.0,
+                                               "defence":  10.0,
+                                               "maxHealth":  100.0,
+                                               "health":  100.0,
+                                               "isAlive":  true,
+                                               "isPeaceful":  true,
+                                               "money":  25,
+                                               "inventory":  {
+                                                                 "items":  [
+
+                                                                           ],
+                                                                 "maxWeight":  20.0,
+                                                                 "currentWeight":  0.0
+                                                             }
+                                           }
+                                       ]
+                   }
+               ]
 }
