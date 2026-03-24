@@ -1,6 +1,6 @@
 {
     "seed":  "H1",
-    "difficulty":  "EASY",
+    "difficulty":  "HARD",
     "currentRoom":  {
                         "id":  1,
                         "name":  "Pokoj v hospodě",
@@ -10,7 +10,16 @@
                                       2
                                   ],
                         "items":  [
-
+                                      {
+                                          "name":  "Lucerna",
+                                          "value":  27,
+                                          "weight":  1.2
+                                      },
+                                      {
+                                          "name":  "Lucerna",
+                                          "value":  27,
+                                          "weight":  1.2
+                                      }
                                   ],
                         "otherPeople":  [
                                             {
@@ -27,18 +36,18 @@
                                                                                 {
                                                                                     "damage":  8.0,
                                                                                     "name":  "Meč",
-                                                                                    "value":  18,
+                                                                                    "value":  32,
                                                                                     "weight":  3.1
                                                                                 },
                                                                                 {
                                                                                     "defense":  14.0,
                                                                                     "name":  "Brnění",
-                                                                                    "value":  8,
+                                                                                    "value":  42,
                                                                                     "weight":  10.0
                                                                                 }
                                                                             ],
                                                                   "maxWeight":  20.0,
-                                                                  "currentWeight":  16.2
+                                                                  "currentWeight":  13.1
                                                               }
                                             }
                                         ]
@@ -53,7 +62,16 @@
                                      2
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Lucerna",
+                                         "value":  27,
+                                         "weight":  1.2
+                                     },
+                                     {
+                                         "name":  "Lucerna",
+                                         "value":  27,
+                                         "weight":  1.2
+                                     }
                                  ],
                        "otherPeople":  [
                                            {
@@ -70,18 +88,18 @@
                                                                                {
                                                                                    "damage":  8.0,
                                                                                    "name":  "Meč",
-                                                                                   "value":  18,
+                                                                                   "value":  32,
                                                                                    "weight":  3.1
                                                                                },
                                                                                {
                                                                                    "defense":  14.0,
                                                                                    "name":  "Brnění",
-                                                                                   "value":  8,
+                                                                                   "value":  42,
                                                                                    "weight":  10.0
                                                                                }
                                                                            ],
                                                                  "maxWeight":  20.0,
-                                                                 "currentWeight":  16.2
+                                                                 "currentWeight":  13.1
                                                              }
                                            }
                                        ]
@@ -96,7 +114,28 @@
                                      6
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Maso",
+                                         "value":  12,
+                                         "weight":  0.2,
+                                         "heal":  8
+                                     },
+                                     {
+                                         "name":  "Jablko",
+                                         "value":  4,
+                                         "weight":  0.2,
+                                         "heal":  3
+                                     },
+                                     {
+                                         "name":  "Lucerna",
+                                         "value":  27,
+                                         "weight":  1.2
+                                     },
+                                     {
+                                         "name":  "Měšec",
+                                         "value":  90,
+                                         "weight":  0.4
+                                     }
                                  ],
                        "otherPeople":  [
                                            {
@@ -111,26 +150,26 @@
                                                "inventory":  {
                                                                  "items":  [
                                                                                {
-                                                                                   "heal":  1.0,
+                                                                                   "heal":  4,
                                                                                    "name":  "Pivo",
-                                                                                   "value":  1,
+                                                                                   "value":  6,
                                                                                    "weight":  0.1
                                                                                },
                                                                                {
-                                                                                   "heal":  1.0,
+                                                                                   "heal":  6,
                                                                                    "name":  "Chleba",
-                                                                                   "value":  1,
+                                                                                   "value":  8,
                                                                                    "weight":  0.1
                                                                                },
                                                                                {
-                                                                                   "heal":  1.0,
+                                                                                   "heal":  4,
                                                                                    "name":  "Víno",
-                                                                                   "value":  1,
+                                                                                   "value":  8,
                                                                                    "weight":  0.1
                                                                                }
                                                                            ],
                                                                  "maxWeight":  20.0,
-                                                                 "currentWeight":  0.7000000000000001
+                                                                 "currentWeight":  0.3
                                                              }
                                            },
                                            {
@@ -146,17 +185,17 @@
                                                                  "items":  [
                                                                                {
                                                                                    "name":  "Mapa",
-                                                                                   "value":  10,
+                                                                                   "value":  15,
                                                                                    "weight":  0.1
                                                                                },
                                                                                {
-                                                                                   "name":  "Hrací kostka",
-                                                                                   "value":  1,
+                                                                                   "name":  "Hracikostka",
+                                                                                   "value":  5,
                                                                                    "weight":  0.1
                                                                                }
                                                                            ],
                                                                  "maxWeight":  20.0,
-                                                                 "currentWeight":  0.30000000000000004
+                                                                 "currentWeight":  0.2
                                                              }
                                            }
                                        ]
@@ -170,7 +209,24 @@
                                      6
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Meč",
+                                         "value":  72,
+                                         "weight":  3.1,
+                                         "damage":  11
+                                     },
+                                     {
+                                         "name":  "Sekera",
+                                         "value":  83,
+                                         "weight":  3.5,
+                                         "damage":  13
+                                     },
+                                     {
+                                         "name":  "Štít",
+                                         "value":  58,
+                                         "weight":  2,
+                                         "defense":  9
+                                     }
                                  ],
                        "otherPeople":  [
                                            {
@@ -187,30 +243,30 @@
                                                                                {
                                                                                    "damage":  15.0,
                                                                                    "name":  "Meč",
-                                                                                   "value":  7,
+                                                                                   "value":  60,
                                                                                    "weight":  3.0
                                                                                },
                                                                                {
                                                                                    "damage":  18.0,
                                                                                    "name":  "Sekera",
-                                                                                   "value":  9,
+                                                                                   "value":  72,
                                                                                    "weight":  3.5
                                                                                },
                                                                                {
                                                                                    "defense":  15.0,
                                                                                    "name":  "Štít",
-                                                                                   "value":  8,
+                                                                                   "value":  45,
                                                                                    "weight":  2.0
                                                                                },
                                                                                {
                                                                                    "defense":  8.0,
                                                                                    "name":  "Helma",
-                                                                                   "value":  6,
+                                                                                   "value":  24,
                                                                                    "weight":  1.5
                                                                                }
                                                                            ],
                                                                  "maxWeight":  100.0,
-                                                                 "currentWeight":  43.5
+                                                                 "currentWeight":  10
                                                              }
                                            }
                                        ]
@@ -224,7 +280,12 @@
                                      6
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Meč",
+                                         "value":  72,
+                                         "weight":  3.1,
+                                         "damage":  11
+                                     }
                                  ],
                        "otherPeople":  [
                                            {
@@ -241,18 +302,18 @@
                                                                                {
                                                                                    "damage":  8.0,
                                                                                    "name":  "Meč",
-                                                                                   "value":  18,
+                                                                                   "value":  32,
                                                                                    "weight":  3.1
                                                                                },
                                                                                {
                                                                                    "defense":  14.0,
                                                                                    "name":  "Brnění",
-                                                                                   "value":  8,
+                                                                                   "value":  42,
                                                                                    "weight":  10.0
                                                                                }
                                                                            ],
                                                                  "maxWeight":  20.0,
-                                                                 "currentWeight":  16.2
+                                                                 "currentWeight":  13.1
                                                              }
                                            }
                                        ]
@@ -267,7 +328,23 @@
                                      10
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Maso",
+                                         "value":  12,
+                                         "weight":  0.2,
+                                         "heal":  8
+                                     },
+                                     {
+                                         "name":  "Maso",
+                                         "value":  12,
+                                         "weight":  0.2,
+                                         "heal":  8
+                                     },
+                                     {
+                                         "name":  "Měšec",
+                                         "value":  90,
+                                         "weight":  0.4
+                                     }
                                  ],
                        "otherPeople":  [
 
@@ -286,9 +363,20 @@
                                  ],
                        "items":  [
                                      {
-                                         "name":  "Povoz",
-                                         "value":  100,
-                                         "weight":  100.0
+                                         "name":  "Provaz",
+                                         "value":  24,
+                                         "weight":  2
+                                     },
+                                     {
+                                         "name":  "Pohár",
+                                         "value":  51,
+                                         "weight":  0.8
+                                     },
+                                     {
+                                         "name":  "Víno",
+                                         "value":  10,
+                                         "weight":  0.3,
+                                         "heal":  7
                                      }
                                  ],
                        "otherPeople":  [
@@ -309,8 +397,18 @@
                        "items":  [
                                      {
                                          "name":  "Skříň",
-                                         "value":  10,
-                                         "weight":  40.0
+                                         "value":  50,
+                                         "weight":  140
+                                     },
+                                     {
+                                         "name":  "Amulet",
+                                         "value":  68,
+                                         "weight":  0.2
+                                     },
+                                     {
+                                         "name":  "Lucerna",
+                                         "value":  27,
+                                         "weight":  1.2
                                      }
                                  ],
                        "otherPeople":  [
@@ -330,6 +428,11 @@
                                          "name":  "Pečeť",
                                          "value":  0,
                                          "weight":  0.1
+                                     },
+                                     {
+                                         "name":  "Měšec",
+                                         "value":  90,
+                                         "weight":  0.4
                                      }
                                  ],
                        "otherPeople":  [
@@ -357,18 +460,18 @@
                                                                                {
                                                                                    "damage":  8.0,
                                                                                    "name":  "Meč",
-                                                                                   "value":  18,
+                                                                                   "value":  32,
                                                                                    "weight":  3.1
                                                                                },
                                                                                {
                                                                                    "defense":  14.0,
                                                                                    "name":  "Brnění",
-                                                                                   "value":  8,
+                                                                                   "value":  42,
                                                                                    "weight":  10.0
                                                                                }
                                                                            ],
                                                                  "maxWeight":  20.0,
-                                                                 "currentWeight":  16.2
+                                                                 "currentWeight":  13.1
                                                              }
                                            }
                                        ]
@@ -383,16 +486,28 @@
                                  ],
                        "items":  [
                                      {
-                                         "heal":  1.0,
-                                         "name":  "Pivo",
-                                         "value":  1,
-                                         "weight":  1.0
+                                         "name":  "Chleba",
+                                         "value":  8,
+                                         "weight":  0.3,
+                                         "heal":  6
                                      },
                                      {
-                                         "heal":  1.0,
+                                         "name":  "Víno",
+                                         "value":  10,
+                                         "weight":  0.3,
+                                         "heal":  7
+                                     },
+                                     {
                                          "name":  "Pivo",
-                                         "value":  1,
-                                         "weight":  1.0
+                                         "value":  6,
+                                         "weight":  0.2,
+                                         "heal":  4
+                                     },
+                                     {
+                                         "name":  "Víno",
+                                         "value":  10,
+                                         "weight":  0.3,
+                                         "heal":  7
                                      },
                                      {
                                          "name":  "Klíč",
@@ -423,7 +538,16 @@
                                      11
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Pohár",
+                                         "value":  51,
+                                         "weight":  0.8
+                                     },
+                                     {
+                                         "name":  "Pohár",
+                                         "value":  51,
+                                         "weight":  0.8
+                                     }
                                  ],
                        "otherPeople":  [
 
@@ -439,7 +563,11 @@
                                      12
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Pohár",
+                                         "value":  51,
+                                         "weight":  0.8
+                                     }
                                  ],
                        "otherPeople":  [
 
@@ -455,7 +583,24 @@
                                      13
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Víno",
+                                         "value":  10,
+                                         "weight":  0.3,
+                                         "heal":  7
+                                     },
+                                     {
+                                         "name":  "Víno",
+                                         "value":  10,
+                                         "weight":  0.3,
+                                         "heal":  7
+                                     },
+                                     {
+                                         "name":  "Dýka",
+                                         "value":  50,
+                                         "weight":  1,
+                                         "damage":  9
+                                     }
                                  ],
                        "otherPeople":  [
                                            {
@@ -466,13 +611,30 @@
                                                "health":  100.0,
                                                "isAlive":  true,
                                                "isPeaceful":  false,
-                                               "money":  0,
+                                               "money":  96,
                                                "inventory":  {
                                                                  "items":  [
-
+                                                                               {
+                                                                                   "name":  "Halapartna",
+                                                                                   "value":  306,
+                                                                                   "weight":  4.5,
+                                                                                   "damage":  27
+                                                                               },
+                                                                               {
+                                                                                   "name":  "brnění",
+                                                                                   "value":  306,
+                                                                                   "weight":  9.5,
+                                                                                   "defense":  20
+                                                                               },
+                                                                               {
+                                                                                   "name":  "Chleba",
+                                                                                   "value":  8,
+                                                                                   "weight":  0.3,
+                                                                                   "heal":  6
+                                                                               }
                                                                            ],
-                                                                 "maxWeight":  20.0,
-                                                                 "currentWeight":  0.0
+                                                                 "maxWeight":  55,
+                                                                 "currentWeight":  14.3
                                                              }
                                            }
                                        ]
@@ -488,7 +650,28 @@
                                      15
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Maso",
+                                         "value":  12,
+                                         "weight":  0.2,
+                                         "heal":  8
+                                     },
+                                     {
+                                         "name":  "Pivo",
+                                         "value":  6,
+                                         "weight":  0.2,
+                                         "heal":  4
+                                     },
+                                     {
+                                         "name":  "Lucerna",
+                                         "value":  27,
+                                         "weight":  1.2
+                                     },
+                                     {
+                                         "name":  "Pohár",
+                                         "value":  51,
+                                         "weight":  0.8
+                                     }
                                  ],
                        "otherPeople":  [
 
@@ -503,7 +686,12 @@
                                      13
                                  ],
                        "items":  [
-
+                                     {
+                                         "name":  "Maso",
+                                         "value":  12,
+                                         "weight":  0.2,
+                                         "heal":  8
+                                     }
                                  ],
                        "otherPeople":  [
                                            {
@@ -514,13 +702,30 @@
                                                "health":  100.0,
                                                "isAlive":  true,
                                                "isPeaceful":  false,
-                                               "money":  0,
+                                               "money":  186,
                                                "inventory":  {
                                                                  "items":  [
-
+                                                                               {
+                                                                                   "name":  "Meč",
+                                                                                   "value":  234,
+                                                                                   "weight":  3.2,
+                                                                                   "damage":  22
+                                                                               },
+                                                                               {
+                                                                                   "name":  "helma",
+                                                                                   "value":  162,
+                                                                                   "weight":  2,
+                                                                                   "defense":  13
+                                                                               },
+                                                                               {
+                                                                                   "name":  "Chleba",
+                                                                                   "value":  8,
+                                                                                   "weight":  0.3,
+                                                                                   "heal":  6
+                                                                               }
                                                                            ],
-                                                                 "maxWeight":  20.0,
-                                                                 "currentWeight":  0.0
+                                                                 "maxWeight":  55,
+                                                                 "currentWeight":  5.5
                                                              }
                                            },
                                            {
@@ -531,13 +736,35 @@
                                                "health":  100.0,
                                                "isAlive":  true,
                                                "isPeaceful":  false,
-                                               "money":  0,
+                                               "money":  129,
                                                "inventory":  {
                                                                  "items":  [
-
+                                                                               {
+                                                                                   "name":  "Halapartna",
+                                                                                   "value":  306,
+                                                                                   "weight":  4.5,
+                                                                                   "damage":  27
+                                                                               },
+                                                                               {
+                                                                                   "name":  "helma",
+                                                                                   "value":  162,
+                                                                                   "weight":  2,
+                                                                                   "defense":  13
+                                                                               },
+                                                                               {
+                                                                                   "name":  "Jablko",
+                                                                                   "value":  4,
+                                                                                   "weight":  0.2,
+                                                                                   "heal":  3
+                                                                               },
+                                                                               {
+                                                                                   "name":  "Amulet",
+                                                                                   "value":  68,
+                                                                                   "weight":  0.2
+                                                                               }
                                                                            ],
-                                                                 "maxWeight":  20.0,
-                                                                 "currentWeight":  0.0
+                                                                 "maxWeight":  55,
+                                                                 "currentWeight":  6.9
                                                              }
                                            }
                                        ]
@@ -568,7 +795,7 @@
 
                                                                            ],
                                                                  "maxWeight":  20.0,
-                                                                 "currentWeight":  0.0
+                                                                 "currentWeight":  0
                                                              }
                                            }
                                        ]
